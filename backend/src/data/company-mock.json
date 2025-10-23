@@ -1,0 +1,358 @@
+{
+  "userType": "company",
+  "company": {
+    "id": "company-001",
+    "name": "TechCorp Solutions",
+    "industry": "Software Development",
+    "totalEmployees": 150,
+    "learningBudget": "$50,000",
+    "adminEmail": "admin@techcorp.com"
+  },
+  "workers": [
+    {
+      "id": "worker-001",
+      "name": "Sarah Chen",
+      "email": "sarah.chen@techcorp.com",
+      "department": "Engineering",
+      "position": "Senior Developer",
+      "hireDate": "2022-03-15",
+      "learningPath": {
+        "id": "lp-react-advanced",
+        "name": "Advanced React & Modern JavaScript",
+        "status": "In Progress",
+        "progress": 75,
+        "startDate": "2024-01-10",
+        "estimatedCompletion": "2024-03-15",
+        "courses": [
+          {
+            "id": "course-react-001",
+            "title": "React Hooks Mastery",
+            "status": "Completed",
+            "score": 92,
+            "completedDate": "2024-01-15",
+            "duration": "8 hours"
+          },
+          {
+            "id": "course-react-002", 
+            "title": "Advanced State Management",
+            "status": "Completed",
+            "score": 88,
+            "completedDate": "2024-01-25",
+            "duration": "6 hours"
+          },
+          {
+            "id": "course-react-003",
+            "title": "Performance Optimization",
+            "status": "In Progress",
+            "score": null,
+            "completedDate": null,
+            "duration": "10 hours"
+          },
+          {
+            "id": "course-react-004",
+            "title": "TypeScript with React",
+            "status": "Not Started",
+            "score": null,
+            "completedDate": null,
+            "duration": "12 hours"
+          }
+        ]
+      },
+      "skillGaps": [
+        {
+          "skill": "React Hooks Advanced",
+          "status": "In Progress",
+          "priority": "High"
+        },
+        {
+          "skill": "TypeScript Integration",
+          "status": "Pending",
+          "priority": "Medium"
+        }
+      ],
+      "lastAssessment": "2024-01-20",
+      "assessmentScore": 82,
+      "nextReview": "2024-02-20"
+    },
+    {
+      "id": "worker-002",
+      "name": "Michael Rodriguez",
+      "email": "michael.r@techcorp.com",
+      "department": "Engineering",
+      "position": "Junior Developer",
+      "hireDate": "2023-06-01",
+      "learningPath": {
+        "id": "lp-javascript-fundamentals",
+        "name": "JavaScript Fundamentals to Advanced",
+        "status": "In Progress",
+        "progress": 45,
+        "startDate": "2024-01-05",
+        "estimatedCompletion": "2024-04-05",
+        "courses": [
+          {
+            "id": "course-js-001",
+            "title": "JavaScript Basics",
+            "status": "Completed",
+            "score": 85,
+            "completedDate": "2024-01-10",
+            "duration": "12 hours"
+          },
+          {
+            "id": "course-js-002",
+            "title": "ES6+ Features",
+            "status": "In Progress",
+            "score": null,
+            "completedDate": null,
+            "duration": "15 hours"
+          },
+          {
+            "id": "course-js-003",
+            "title": "Async Programming",
+            "status": "Not Started",
+            "score": null,
+            "completedDate": null,
+            "duration": "10 hours"
+          },
+          {
+            "id": "course-js-004",
+            "title": "DOM Manipulation",
+            "status": "Not Started",
+            "score": null,
+            "completedDate": null,
+            "duration": "8 hours"
+          }
+        ]
+      },
+      "skillGaps": [
+        {
+          "skill": "ES6+ Features",
+          "status": "In Progress",
+          "priority": "High"
+        },
+        {
+          "skill": "Async Programming",
+          "status": "Pending",
+          "priority": "High"
+        }
+      ],
+      "lastAssessment": "2024-01-18",
+      "assessmentScore": 68,
+      "nextReview": "2024-02-18"
+    },
+    {
+      "id": "worker-003",
+      "name": "Emily Watson",
+      "email": "emily.w@techcorp.com",
+      "department": "Engineering",
+      "position": "Full-Stack Developer",
+      "hireDate": "2022-09-10",
+      "learningPath": {
+        "id": "lp-nodejs-advanced",
+        "name": "Advanced Node.js & JavaScript Performance",
+        "status": "Completed",
+        "progress": 100,
+        "startDate": "2023-10-01",
+        "estimatedCompletion": "2024-01-15",
+        "courses": [
+          {
+            "id": "course-node-001",
+            "title": "Node.js Fundamentals",
+            "status": "Completed",
+            "score": 95,
+            "completedDate": "2023-10-15",
+            "duration": "16 hours"
+          },
+          {
+            "id": "course-node-002",
+            "title": "Express.js Mastery",
+            "status": "Completed",
+            "score": 92,
+            "completedDate": "2023-11-01",
+            "duration": "12 hours"
+          },
+          {
+            "id": "course-node-003",
+            "title": "Microservices Architecture",
+            "status": "Completed",
+            "score": 96,
+            "completedDate": "2023-12-10",
+            "duration": "20 hours"
+          },
+          {
+            "id": "course-node-004",
+            "title": "Performance Optimization",
+            "status": "Completed",
+            "score": 89,
+            "completedDate": "2024-01-15",
+            "duration": "14 hours"
+          }
+        ]
+      },
+      "skillGaps": [
+        {
+          "skill": "Microservices Architecture",
+          "status": "Completed",
+          "priority": "Low"
+        },
+        {
+          "skill": "Performance Optimization",
+          "status": "Pending",
+          "priority": "Medium"
+        }
+      ],
+      "lastAssessment": "2024-01-15",
+      "assessmentScore": 94,
+      "nextReview": "2024-04-15"
+    },
+    {
+      "id": "worker-004",
+      "name": "David Kim",
+      "email": "david.kim@techcorp.com",
+      "department": "Engineering",
+      "position": "Frontend Developer",
+      "hireDate": "2021-11-20",
+      "learningPath": {
+        "id": "lp-vuejs-mastery",
+        "name": "Vue.js & Modern JavaScript Patterns",
+        "status": "In Progress",
+        "progress": 60,
+        "startDate": "2023-12-01",
+        "estimatedCompletion": "2024-03-01",
+        "courses": [
+          {
+            "id": "course-vue-001",
+            "title": "Vue 3 Fundamentals",
+            "status": "Completed",
+            "score": 90,
+            "completedDate": "2023-12-15",
+            "duration": "14 hours"
+          },
+          {
+            "id": "course-vue-002",
+            "title": "Composition API",
+            "status": "In Progress",
+            "score": null,
+            "completedDate": null,
+            "duration": "12 hours"
+          },
+          {
+            "id": "course-vue-003",
+            "title": "State Management with Pinia",
+            "status": "Not Started",
+            "score": null,
+            "completedDate": null,
+            "duration": "10 hours"
+          },
+          {
+            "id": "course-vue-004",
+            "title": "Advanced Vue Patterns",
+            "status": "Not Started",
+            "score": null,
+            "completedDate": null,
+            "duration": "16 hours"
+          }
+        ]
+      },
+      "skillGaps": [
+        {
+          "skill": "Vue 3 Composition API",
+          "status": "In Progress",
+          "priority": "High"
+        },
+        {
+          "skill": "State Management",
+          "status": "Pending",
+          "priority": "Medium"
+        }
+      ],
+      "lastAssessment": "2024-01-12",
+      "assessmentScore": 76,
+      "nextReview": "2024-02-12"
+    },
+    {
+      "id": "worker-005",
+      "name": "Lisa Thompson",
+      "email": "lisa.t@techcorp.com",
+      "department": "Engineering",
+      "position": "JavaScript Developer",
+      "hireDate": "2022-01-15",
+      "learningPath": {
+        "id": "lp-javascript-expert",
+        "name": "JavaScript Expert Level & Advanced Patterns",
+        "status": "In Progress",
+        "progress": 30,
+        "startDate": "2024-01-20",
+        "estimatedCompletion": "2024-05-20",
+        "courses": [
+          {
+            "id": "course-js-expert-001",
+            "title": "Advanced JavaScript Concepts",
+            "status": "In Progress",
+            "score": null,
+            "completedDate": null,
+            "duration": "18 hours"
+          },
+          {
+            "id": "course-js-expert-002",
+            "title": "Functional Programming",
+            "status": "Not Started",
+            "score": null,
+            "completedDate": null,
+            "duration": "15 hours"
+          },
+          {
+            "id": "course-js-expert-003",
+            "title": "Design Patterns",
+            "status": "Not Started",
+            "score": null,
+            "completedDate": null,
+            "duration": "20 hours"
+          },
+          {
+            "id": "course-js-expert-004",
+            "title": "Memory Management",
+            "status": "Not Started",
+            "score": null,
+            "completedDate": null,
+            "duration": "12 hours"
+          }
+        ]
+      },
+      "skillGaps": [
+        {
+          "skill": "Functional Programming",
+          "status": "In Progress",
+          "priority": "High"
+        },
+        {
+          "skill": "Design Patterns",
+          "status": "Pending",
+          "priority": "Medium"
+        }
+      ],
+      "lastAssessment": "2024-01-25",
+      "assessmentScore": 71,
+      "nextReview": "2024-02-25"
+    }
+  ],
+  "companyAnalytics": {
+    "totalWorkers": 5,
+    "activeLearningPaths": 4,
+    "completedPaths": 1,
+    "averageProgress": 58,
+    "averageAssessmentScore": 78.2,
+    "skillGapDistribution": {
+      "High Priority": 8,
+      "Medium Priority": 4,
+      "Low Priority": 1
+    },
+    "departmentBreakdown": {
+      "Engineering": 5
+    },
+    "learningPathStatus": {
+      "In Progress": 4,
+      "Completed": 1,
+      "Not Started": 0
+    }
+  }
+}
