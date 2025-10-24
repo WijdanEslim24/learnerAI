@@ -4,6 +4,60 @@ import logger from '../utils/logger.js'
 
 const router = express.Router()
 
+// Search courses across learning paths. Query param: q
+router.get('/courses/search', async (req, res, next) => {
+  try {
+    const q = (req.query.q || '').trim()
+    if (!q) return res.status(400).json({ error: 'Missing query parameter q' })
+
+    // Fetch learning paths with courses and worker info, then filter courses
+    const { data: paths, error } = await supabase
+      .from('learning_paths')
+      .select(`
+        id,
+        title,
+        worker_id,
+        courses (
+          id,
+          title,
+          duration,
+          difficulty
+        ),
+        workers (
+          id,
+          name
+        )
+      `)
+
+    if (error) {
+      logger.error('Error fetching learning paths for course search:', error)
+      return res.status(500).json({ error: 'Failed to search courses' })
+    }
+
+    const qLower = q.toLowerCase()
+    const results = []
+    ;(paths || []).forEach(p => {
+      (p.courses || []).forEach(c => {
+        if (c.title && c.title.toLowerCase().includes(qLower)) {
+          results.push({
+            courseId: c.id,
+            title: c.title,
+            duration: c.duration,
+            difficulty: c.difficulty,
+            learningPathId: p.id,
+            learningPathTitle: p.title,
+            worker: p.workers && p.workers.length ? p.workers[0] : undefined
+          })
+        }
+      })
+    })
+
+    res.json(results)
+  } catch (error) {
+    next(error)
+  }
+})
+
 // Get all learning paths
 router.get('/', async (req, res, next) => {
   try {

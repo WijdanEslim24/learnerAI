@@ -5,6 +5,57 @@ import { validateWorker, validateSkillGaps } from '../utils/validation.js'
 
 const router = express.Router()
 
+// Search workers and courses. Query param: q
+router.get('/search', async (req, res, next) => {
+  try {
+    const q = (req.query.q || '').trim()
+    if (!q) return res.status(400).json({ error: 'Missing query parameter q' })
+
+    // Search workers by name or email
+    const { data: workers, error: workersError } = await supabase
+      .from('workers')
+      .select(`id,name,email,department,position,overall_progress,completed_courses`)
+      .or(`name.ilike.%${q}%,email.ilike.%${q}%`)
+
+    if (workersError) {
+      logger.error('Error searching workers:', workersError)
+      return res.status(500).json({ error: 'Failed to search workers' })
+    }
+
+    // Search courses by title inside learning paths. Some PostgREST setups don't
+    // allow filtering on nested arrays directly, so fetch paths with courses and
+    // filter in JS.
+    const { data: paths, error: pathsError } = await supabase
+      .from('learning_paths')
+      .select(`id,title,worker_id,courses(id,title)`) // courses is a related table
+
+    if (pathsError) {
+      logger.error('Error fetching learning paths for course search:', pathsError)
+      return res.status(500).json({ error: 'Failed to search courses' })
+    }
+
+    const qLower = q.toLowerCase()
+    const matchedCourses = []
+    ;(paths || []).forEach(p => {
+      (p.courses || []).forEach(c => {
+        if (c.title && c.title.toLowerCase().includes(qLower)) {
+          matchedCourses.push({
+            courseId: c.id,
+            title: c.title,
+            learningPathId: p.id,
+            learningPathTitle: p.title,
+            workerId: p.worker_id
+          })
+        }
+      })
+    })
+
+    res.json({ workers: workers || [], courses: matchedCourses })
+  } catch (error) {
+    next(error)
+  }
+})
+
 // Get all workers with their progress
 router.get('/', async (req, res, next) => {
   try {
