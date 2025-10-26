@@ -1,9 +1,9 @@
 :root{
   --la-bg-start: #081229; /* deep navy */
   --la-bg-end: #114a7a;   /* slightly lighter teal-blue for brighter look */
-  --la-accent-1: #1e90ff; /* brighter DodgerBlue */
+  --la-accent-1: #065f46; /* dark emerald */
   --la-on-accent: #ffffff; /* text color to use on accent/dark backgrounds */
-  --la-accent-2: #7c3aed; /* purple-600 */
+  --la-accent-2: #047857; /* emerald green */
   --la-card-bg: rgba(255,255,255,0.04);
   --la-card-border: rgba(255,255,255,0.06);
   --la-muted: rgba(255,255,255,0.6);

@@ -17,18 +17,26 @@ const LandingPage = () => {
 
   const [selectedView, setSelectedView] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(false)
 
-  // Ensure the theme mode class is applied to the document body so CSS variables take effect
+  // Theme toggle functionality
   useEffect(() => {
     try {
+      if (isDarkMode) {
+        document.body.classList.remove('day-mode')
+        document.body.classList.add('night-mode')
+      } else {
+        document.body.classList.remove('night-mode')
       document.body.classList.add('day-mode')
+      }
     } catch (e) {
       // ignore (SSR or test environments)
     }
-    return () => {
-      try { document.body.classList.remove('day-mode') } catch (e) {}
-    }
-  }, [])
+  }, [isDarkMode])
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode)
+  }
 
   const handleViewSelection = async (viewType) => {
     // Immediately navigate to the requested view to avoid blocking the UI.
@@ -72,6 +80,33 @@ const LandingPage = () => {
 
   return (
     <div className="day-mode la-theme" style={{minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden'}}>
+      {/* Theme Toggle Button */}
+      <button 
+        className="theme-toggle" 
+        onClick={toggleTheme}
+        style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          zIndex: 1000,
+          background: 'var(--bg-tertiary)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: '50%',
+          width: '50px',
+          height: '50px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          color: 'var(--text-primary)',
+          fontSize: '1.5rem'
+        }}
+        aria-label="Toggle theme"
+      >
+        {isDarkMode ? '☀️' : '🌙'}
+      </button>
+
       {/* Design System Background Animation */}
       <div className="bg-animation"></div>
       <div className="particles">
@@ -85,14 +120,13 @@ const LandingPage = () => {
       </div>
       
       <div className="text-center relative z-10 max-w-5xl mx-auto px-6">
-        {/* Main heading with vibrant styling */}
+        {/* Main heading with Dark Emerald styling */}
         <div className="mb-20">
-          <h1 className="text-7xl font-black text-white mb-8 bg-gradient-to-r from-pink-400 via-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent animate-pulse">
+          <h1 className="text-7xl font-black text-white mb-8 bg-gradient-to-r from-green-400 via-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent animate-pulse">
             LearnerAI
           </h1>
-          <p className="text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed font-medium">
-            🚀 Empowering learners and organizations with 
-            <span style={{background: 'linear-gradient(135deg, #065f46, #047857)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', fontWeight: 'bold'}}> AI-driven</span> personalized learning paths
+          <p className="text-2xl max-w-3xl mx-auto leading-relaxed font-medium" style={{color: isDarkMode ? '#ffffff' : '#1e293b', textShadow: isDarkMode ? '0 2px 10px rgba(0,0,0,0.5)' : 'none'}}>
+            🚀 Empowering learners and organizations with AI-driven personalized learning paths
           </p>
         </div>
         
@@ -126,8 +160,8 @@ const LandingPage = () => {
         {/* Vibrant feature indicators */}
         <div className="mt-20 text-center">
           <div className="inline-flex items-center space-x-12 text-white/80">
-            <div className="flex items-center space-x-3 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-sm rounded-full px-6 py-3 border border-pink-400/30">
-              <div className="w-3 h-3 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full animate-pulse"></div>
+            <div className="flex items-center space-x-3 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 backdrop-blur-sm rounded-full px-6 py-3 border border-emerald-400/30">
+              <div className="w-3 h-3 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full animate-pulse"></div>
               <span className="text-lg font-semibold">🤖 AI-Powered</span>
             </div>
             <div className="flex items-center space-x-3 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-sm rounded-full px-6 py-3 border border-blue-400/30">
@@ -150,6 +184,26 @@ const LearnerView = ({ onBack }) => {
   const [learningPath, setLearningPath] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selectedCourseId, setSelectedCourseId] = useState('')
+  const [isDarkMode, setIsDarkMode] = useState(false)
+
+  // Theme toggle functionality for LearnerView
+  useEffect(() => {
+    try {
+      if (isDarkMode) {
+        document.body.classList.remove('day-mode')
+        document.body.classList.add('night-mode')
+      } else {
+        document.body.classList.remove('night-mode')
+        document.body.classList.add('day-mode')
+      }
+    } catch (e) {
+      // ignore (SSR or test environments)
+    }
+  }, [isDarkMode])
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode)
+  }
 
   useEffect(() => {
     loadLearningPath()
@@ -343,25 +397,67 @@ const LearnerView = ({ onBack }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-800 to-indigo-900 p-8 la-theme">
+    <div className="min-h-screen la-theme p-8" style={{position: 'relative', overflow: 'hidden'}}>
+      {/* Theme Toggle Button */}
+      <button 
+        className="theme-toggle" 
+        onClick={toggleTheme}
+        style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          zIndex: 1000,
+          background: 'var(--bg-tertiary)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: '50%',
+          width: '50px',
+          height: '50px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          color: 'var(--text-primary)',
+          fontSize: '1.5rem'
+        }}
+        aria-label="Toggle theme"
+      >
+        {isDarkMode ? '☀️' : '🌙'}
+      </button>
+
+      {/* Background Animation */}
+      <div className="bg-animation"></div>
+      <div className="particles">
+        {[...Array(15)].map((_, i) => (
+          <div key={i} className="particle" style={{
+            left: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 20}s`,
+            animationDuration: `${15 + Math.random() * 10}s`
+          }}></div>
+        ))}
+      </div>
+
       {/* Header with Back Button */}
-      <div className="flex items-center mb-8">
+      <div className="flex items-center mb-8" style={{position: 'relative', zIndex: 10}}>
         <button
           onClick={onBack}
-          className="mr-4 p-4 bg-gradient-to-r from-purple-600/80 to-pink-600/80 hover:from-purple-500 hover:to-pink-500 rounded-2xl text-white transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/25 border border-purple-400/30 backdrop-blur-sm"
+          className="btn btn-primary mr-4"
         >
-          <div className="flex items-center space-x-3">
             <span className="text-xl">←</span>
             <span className="font-bold text-lg">Back</span>
-          </div>
         </button>
-        <h1 className="text-4xl font-black text-white bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">My Learning Path</h1>
+        <h1 className="text-4xl font-black" style={{
+          background: 'var(--gradient-primary)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text'
+        }}>My Learning Path</h1>
       </div>
 
       {/* Learning Path Overview removed per user request */}
 
       {/* My Learning Path header + course selector */}
-      <div className="bg-gradient-to-r from-slate-800/40 to-slate-700/40 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-slate-600/20 shadow-md">
+      <div className="microservice-card" style={{position: 'relative', zIndex: 10, marginBottom: '2rem'}}>
        
 
         {/* derive a list of all courses from learningPath */}
@@ -387,24 +483,89 @@ const LearnerView = ({ onBack }) => {
           }
 
           return (
-            <div className="flex items-start space-x-4">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-3">
+                <div style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '12px',
+                  background: 'var(--gradient-primary)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 4px 12px rgba(6, 95, 70, 0.3)',
+                  fontSize: '1.5rem'
+                }}>
+                  📚
+                </div>
+                <div>
+                  <label className="text-lg font-bold" style={{color: 'var(--text-primary)', display: 'block'}}>
+                    Choose Your Course
+                  </label>
+                  <p className="text-sm" style={{color: 'var(--text-secondary)'}}>
+                    Select from available courses
+                  </p>
+                </div>
+              </div>
+              
+              <div 
+                className="course-selector"
+                style={{
+                  position: 'relative',
+                  background: 'var(--gradient-card)',
+                  border: '2px solid var(--bg-tertiary)',
+                  borderRadius: '16px',
+                  padding: '1.25rem',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--primary-cyan)';
+                  e.currentTarget.style.boxShadow = '0 12px 32px rgba(6, 95, 70, 0.2)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--bg-tertiary)';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.12)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
               <select
                 value={selectedCourseId}
                 onChange={(e) => setSelectedCourseId(e.target.value)}
-                className="p-3 rounded-md bg-slate-800 text-white border border-slate-600"
-                style={{ color: '#ffffff', backgroundColor: '#195856ff' }}
-              >
-                <option value="" style={{ color: '#ffffff', backgroundColor: '#195856ff' }}>Select course</option>
+                  className="w-full outline-none"
+                  style={{ 
+                    color: 'var(--text-primary)', 
+                    background: 'transparent',
+                    border: 'none',
+                    fontSize: '1.1rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    appearance: 'none',
+                    textAlign: 'center',
+                    backgroundImage: isDarkMode 
+                      ? 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' viewBox=\'0 0 24 24\'%3E%3Cpath fill=\'%23ffffff\' stroke=\'none\' d=\'M7 10l5 5 5-5z\'/%3E%3C/svg%3E")'
+                      : 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' viewBox=\'0 0 24 24\'%3E%3Cpath fill=\'%23334155\' stroke=\'none\' d=\'M7 10l5 5 5-5z\'/%3E%3C/svg%3E")',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 12px center',
+                    backgroundSize: '20px 20px',
+                    paddingRight: '45px'
+                  }}
+                >    <option value="" disabled>👇 Select a course to view details</option>
                 {dedup.map(c => (
-                  <option key={c.id} value={c.id}>{c.title}</option>
+                    <option key={c.id} value={c.id} style={{textAlign: 'center'}}>{c.title}</option>
                 ))}
               </select>
+              
+              </div>
             </div>
           )
         })()}
       </div>
 
       {/* Course Details: show full syllabus when a JavaScript course is selected, otherwise a compact card */}
+      <div style={{position: 'relative', zIndex: 10}}>
       {selectedCourseId && (() => {
         const all = []
         if (learningPath?.courses && Array.isArray(learningPath.courses)) {
@@ -421,99 +582,282 @@ const LearnerView = ({ onBack }) => {
 
         if (titleLower.includes('javascript') || titleLower.includes('javascript foundations')) {
           return (
-            <div className="bg-gradient-to-r from-slate-800/60 to-slate-700/60 backdrop-blur-sm rounded-2xl p-8 mb-8 border border-slate-600/30 shadow-2xl">
-              <h3 className="text-2xl font-bold text-white mb-4">Course Title:</h3>
-              <div className="mb-4">
-                <strong className="text-xl text-white">JavaScript Foundations: From Zero to Confident Coder</strong>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '2rem'}}>
+              {/* Course Hero Section */}
+              <div className="microservice-card" style={{
+                padding: '2.5rem',
+                background: 'var(--gradient-card)',
+                borderLeft: '4px solid var(--primary-cyan)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+              }}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1rem'}}>
+                  <div style={{
+                    width: '64px',
+                    height: '64px',
+                    borderRadius: '16px',
+                    background: 'var(--gradient-primary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '2rem',
+                    boxShadow: '0 4px 12px rgba(6, 95, 70, 0.3)'
+                  }}>
+                    📘
               </div>
-
-              <h4 className="text-lg font-semibold text-white/90 mt-4">Course Overview:</h4>
-              <p className="text-slate-300 mt-2">This course is designed for absolute beginners who want to build a solid understanding of JavaScript — the core programming language of the web. By the end of the course, learners will be able to read, write, and debug JavaScript code confidently, understand how to manipulate web pages dynamically, and apply logical thinking to build small, interactive projects.</p>
-
-              <h4 className="text-lg font-semibold text-white/90 mt-4">Target Skills (Confirmation):</h4>
-              <ul className="list-disc list-inside text-slate-300 mt-2 space-y-1">
-                <li>Understanding JavaScript syntax and structure</li>
-                <li>Working with variables, data types, and operators</li>
-                <li>Writing control flow with conditionals and loops</li>
-                <li>Creating and using functions effectively</li>
-                <li>Manipulating arrays and objects</li>
-                <li>Understanding scope, hoisting, and events</li>
-                <li>Interacting with the DOM (Document Object Model)</li>
-                <li>Handling user input and basic debugging</li>
-              </ul>
-
-              <h4 className="text-lg font-semibold text-white/90 mt-6">Course Structure & Modules</h4>
-
-              <div className="mt-3 space-y-4 text-slate-300">
                 <div>
-                  <strong>Module 1: Getting Started with JavaScript</strong>
-                  <div className="mt-1">Module Objective: Understand what JavaScript is, how it works in the browser, and how to set up your development environment.</div>
-                  <div className="mt-1">Covered Skills: Understanding JavaScript’s role in web development; setting up tools (browser, editor, console); writing and running your first script.</div>
+                    <div style={{fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.25rem'}}>COURSE</div>
+                    <h2 style={{
+                      fontSize: '2rem',
+                      fontWeight: 'bold',
+                      color: 'var(--text-primary)',
+                      margin: 0
+                    }}>
+                      JavaScript Foundations: From Zero to Confident Coder
+                    </h2>
+                </div>
+                </div>
+                <p style={{
+                  fontSize: '1.125rem',
+                  lineHeight: '1.7',
+                  color: 'var(--text-secondary)',
+                  marginTop: '1rem'
+                }}>
+                  This course is designed for absolute beginners who want to build a solid understanding of JavaScript — the core programming language of the web. By the end of the course, learners will be able to read, write, and debug JavaScript code confidently, understand how to manipulate web pages dynamically, and apply logical thinking to build small, interactive projects.
+                </p>
                 </div>
 
-                <div>
-                  <strong>Module 2: Core Syntax and Data Types</strong>
-                  <div className="mt-1">Module Objective: Learn the building blocks of JavaScript code: variables, data types, and operators.</div>
-                  <div className="mt-1">Covered Skills: Declaring variables (var, let, const); understanding data types; using arithmetic and logical operators.</div>
+              {/* Target Skills Section */}
+              <div className="microservice-card" style={{padding: '2rem'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem'}}>
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '10px',
+                    background: 'var(--gradient-primary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.5rem'
+                  }}>
+                    ✨
+                </div>
+                  <h3 style={{
+                    fontSize: '1.5rem',
+                    fontWeight: 'bold',
+                    color: 'var(--text-primary)',
+                    margin: 0
+                  }}>What You'll Master</h3>
+                </div>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                  gap: '1rem'
+                }}>
+                  {[
+                    'Understanding JavaScript syntax and structure',
+                    'Working with variables, data types, and operators',
+                    'Writing control flow with conditionals and loops',
+                    'Creating and using functions effectively',
+                    'Manipulating arrays and objects',
+                    'Understanding scope, hoisting, and events',
+                    'Interacting with the DOM',
+                    'Handling user input and basic debugging'
+                  ].map((skill, idx) => (
+                    <div key={idx} style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.75rem',
+                      padding: '0.75rem',
+                      background: 'var(--bg-secondary)',
+                      borderRadius: '8px',
+                      border: '1px solid var(--bg-tertiary)',
+                      transition: 'all 0.2s ease'
+                    }}>
+                      <div style={{color: 'var(--accent-green)', fontSize: '1.2rem'}}>✓</div>
+                      <span style={{color: 'var(--text-secondary)', fontSize: '0.95rem'}}>{skill}</span>
+                    </div>
+                  ))}
+                </div>
                 </div>
 
-                <div>
-                  <strong>Module 3: Control Flow — Logic in Action</strong>
-                  <div className="mt-1">Module Objective: Master the use of conditionals and loops to control program behavior.</div>
-                  <div className="mt-1">Covered Skills: Writing conditional statements; creating loops for repetition; using logical operators effectively.</div>
+              {/* Course Modules Section */}
+              <div className="microservice-card" style={{padding: '2rem'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem'}}>
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '10px',
+                    background: 'var(--gradient-primary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.5rem'
+                  }}>
+                    📚
+                  </div>
+                  <h3 style={{
+                    fontSize: '1.5rem',
+                    fontWeight: 'bold',
+                    color: 'var(--text-primary)',
+                    margin: 0
+                  }}>Course Modules</h3>
                 </div>
 
-                <div>
-                  <strong>Module 4: Functions and Scope</strong>
-                  <div className="mt-1">Module Objective: Learn how to organize and reuse code through functions.</div>
-                  <div className="mt-1">Covered Skills: Declaring and invoking functions; understanding parameters and return values; recognizing scope and hoisting.</div>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                  gap: '1.5rem'
+                }}>
+                  {[
+                    { title: 'Getting Started with JavaScript', obj: 'Understand what JavaScript is, how it works in the browser, and how to set up your development environment.', skills: 'Understanding JavaScript\'s role in web development; setting up tools (browser, editor, console); writing and running your first script.' },
+                    { title: 'Core Syntax and Data Types', obj: 'Learn the building blocks of JavaScript code: variables, data types, and operators.', skills: 'Declaring variables (var, let, const); understanding data types; using arithmetic and logical operators.' },
+                    { title: 'Control Flow — Logic in Action', obj: 'Master the use of conditionals and loops to control program behavior.', skills: 'Writing conditional statements; creating loops for repetition; using logical operators effectively.' },
+                    { title: 'Functions and Scope', obj: 'Learn how to organize and reuse code through functions.', skills: 'Declaring and invoking functions; understanding parameters and return values; recognizing scope and hoisting.' },
+                    { title: 'Working with Arrays and Objects', obj: 'Understand how to handle collections of data effectively.', skills: 'Creating and manipulating arrays; working with objects and key-value pairs.' },
+                    { title: 'DOM Manipulation & Events', obj: 'Learn how JavaScript interacts with HTML to create dynamic web experiences.', skills: 'Selecting and modifying HTML elements; handling events like clicks and input changes.' },
+                    { title: 'Debugging and Problem Solving', obj: 'Develop confidence in identifying and fixing errors in your code.', skills: 'Using browser dev tools effectively; reading error messages and stack traces; implementing debugging techniques.' },
+                    { title: 'Mini Projects for Mastery', obj: 'Apply everything learned through practical, hands-on projects.', skills: 'Integrating all foundational JS skills; building functional mini-apps (calculator, to-do list, quiz game, etc.).' }
+                  ].map((module, idx) => (
+                    <div key={idx} style={{
+                      padding: '1.5rem',
+                      background: 'var(--bg-secondary)',
+                      borderRadius: '12px',
+                      border: '1px solid var(--bg-tertiary)',
+                      borderLeft: '3px solid var(--primary-cyan)',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-4px)';
+                      e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                    >
+                      <div style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '8px',
+                        background: 'var(--gradient-primary)',
+                        color: 'white',
+                        fontSize: '0.875rem',
+                        fontWeight: 'bold',
+                        marginBottom: '1rem'
+                      }}>
+                        {idx + 1}
+                      </div>
+                      <h4 style={{
+                        fontSize: '1.125rem',
+                        fontWeight: 'bold',
+                        color: 'var(--text-primary)',
+                        marginBottom: '0.75rem'
+                      }}>
+                        {module.title}
+                      </h4>
+                      <div style={{
+                        fontSize: '0.875rem',
+                        color: 'var(--text-muted)',
+                        marginBottom: '0.5rem'
+                      }}>
+                        <strong style={{color: 'var(--text-primary)'}}>Objective:</strong> {module.obj}
+                      </div>
+                      <div style={{
+                        fontSize: '0.875rem',
+                        color: 'var(--text-secondary)'
+                      }}>
+                        <strong style={{color: 'var(--text-primary)'}}>Skills:</strong> {module.skills}
+                      </div>
+                    </div>
+                  ))}
+                </div>
                 </div>
 
-                <div>
-                  <strong>Module 5: Working with Arrays and Objects</strong>
-                  <div className="mt-1">Module Objective: Understand how to handle collections of data effectively.</div>
-                  <div className="mt-1">Covered Skills: Creating and manipulating arrays; working with objects and key-value pairs.</div>
+              {/* Assessment Section */}
+              <div className="microservice-card" style={{padding: '2rem'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem'}}>
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '10px',
+                    background: 'var(--gradient-accent)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.5rem'
+                  }}>
+                    🎯
+                  </div>
+                  <h3 style={{
+                    fontSize: '1.5rem',
+                    fontWeight: 'bold',
+                    color: 'var(--text-primary)',
+                    margin: 0
+                  }}>Learning Activities & Assessment</h3>
                 </div>
-
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                  gap: '1rem'
+                }}>
+                  {[
+                    { title: 'Interactive Code Exercises', desc: 'Short coding tasks in each lesson' },
+                    { title: 'Mini Projects', desc: 'Practical web-based apps after Modules 6–8' },
+                    { title: 'Concept Quizzes', desc: 'Multiple-choice questions to test comprehension' },
+                    { title: 'Debugging Challenges', desc: 'Identify and fix broken snippets' },
+                    { title: 'Final Project', desc: 'Combine all concepts to build an interactive web app' }
+                  ].map((item, idx) => (
+                    <div key={idx} style={{
+                      display: 'flex',
+                      alignItems: 'start',
+                      gap: '1rem',
+                      padding: '1.25rem',
+                      background: 'var(--bg-secondary)',
+                      borderRadius: '10px',
+                      border: '1px solid var(--bg-tertiary)'
+                    }}>
+                      <div style={{
+                        fontSize: '1.5rem'
+                      }}>
+                        {['⚡', '🎨', '📝', '🐛', '🏆'][idx]}
+                      </div>
                 <div>
-                  <strong>Module 6: DOM Manipulation & Events</strong>
-                  <div className="mt-1">Module Objective: Learn how JavaScript interacts with HTML to create dynamic web experiences.</div>
-                  <div className="mt-1">Covered Skills: Selecting and modifying HTML elements; handling events like clicks and input changes.</div>
-                </div>
-
-                <div>
-                  <strong>Module 7: Debugging and Problem Solving</strong>
-                  <div className="mt-1">Module Objective: Develop confidence in identifying and fixing errors in your code.</div>
-                  <div className="mt-1">Covered Skills: Using browser dev tools effectively; reading error messages and stack traces; implementing debugging techniques.</div>
-                </div>
-
-                <div>
-                  <strong>Module 8: Mini Projects for Mastery</strong>
-                  <div className="mt-1">Module Objective: Apply everything learned through practical, hands-on projects.</div>
-                  <div className="mt-1">Covered Skills: Integrating all foundational JS skills; building functional mini-apps (calculator, to-do list, quiz game, etc.).</div>
+                        <h5 style={{
+                          fontSize: '1rem',
+                          fontWeight: 'bold',
+                          color: 'var(--text-primary)',
+                          marginBottom: '0.25rem'
+                        }}>
+                          {item.title}
+                        </h5>
+                        <p style={{
+                          fontSize: '0.875rem',
+                          color: 'var(--text-secondary)',
+                          margin: 0
+                        }}>
+                          {item.desc}
+                        </p>
                 </div>
               </div>
-
-              <h4 className="text-lg font-semibold text-white/90 mt-6">Learning Activities & Assessment</h4>
-              <ul className="list-disc list-inside text-slate-300 mt-2 space-y-1">
-                <li>Interactive Code Exercises – Short coding tasks in each lesson.</li>
-                <li>Mini Projects – Practical web-based apps after Modules 6–8.</li>
-                <li>Concept Quizzes – Multiple-choice questions to test comprehension.</li>
-                <li>Debugging Challenges – Identify and fix broken snippets.</li>
-                <li>Final Project – Combine all concepts to build a simple interactive web app.</li>
-              </ul>
+                  ))}
+                </div>
+              </div>
             </div>
           )
         }
 
         // non-JS fallback: compact details
         return (
-          <div className="bg-gradient-to-r from-slate-800/60 to-slate-700/60 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-slate-600/30 shadow-md">
-            <h3 className="text-xl font-bold text-white mb-2">{sel.title}</h3>
-            <p className="text-slate-300">{sel.overview || 'Course overview not available for this course.'}</p>
+          <div className="microservice-card" style={{padding: '1.5rem', marginBottom: '2rem'}}>
+            <h3 className="text-xl font-bold mb-2" style={{color: 'var(--text-primary)'}}>{sel.title}</h3>
+            <p style={{color: 'var(--text-secondary)'}}>{sel.overview || 'Course overview not available for this course.'}</p>
           </div>
         )
       })()}
+      </div>
 
       {/* 'Learning Journey - Step by Step' section removed per request */}
     </div>
