@@ -1,27 +1,10 @@
 {
   "version": 2,
-  "name": "learner-ai-frontend",
-  "builds": [
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/dist/$1"
-    }
-  ],
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
+  "installCommand": "cd frontend && npm install",
+  "framework": "vite",
   "env": {
     "VITE_API_URL": "@api_url"
-  },
-  "functions": {
-    "frontend/dist/**/*.js": {
-      "maxDuration": 10
-    }
   }
 }
