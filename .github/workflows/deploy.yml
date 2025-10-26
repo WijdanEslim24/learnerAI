@@ -71,11 +71,14 @@ jobs:
           NODE_ENV: test
         continue-on-error: true
 
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+      
       - name: Deploy to Railway
-        uses: railwayapp/railway-deploy@v1
-        with:
-          railway-token: ${{ secrets.RAILWAY_TOKEN }}
-          service: learner-ai-backend
+        run: |
+          railway up --service learner-ai-backend
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
   # AI Model Deployment (Manual Approval Required)
   deploy-ai-models:
