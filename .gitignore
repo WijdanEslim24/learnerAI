@@ -55,6 +55,9 @@ jspm_packages/
 *.swp
 *.swo
 
+# Vite
+.vite/
+
 # OS generated files
 .DS_Store
 .DS_Store?
