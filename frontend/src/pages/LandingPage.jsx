@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { getUserType } from '../services/api'
+import '../styles/theme.css'
 import './landing.css'
 
 // helper: initials for avatars
@@ -16,6 +17,18 @@ const LandingPage = () => {
 
   const [selectedView, setSelectedView] = useState(null)
   const [loading, setLoading] = useState(false)
+
+  // Ensure the theme mode class is applied to the document body so CSS variables take effect
+  useEffect(() => {
+    try {
+      document.body.classList.add('day-mode')
+    } catch (e) {
+      // ignore (SSR or test environments)
+    }
+    return () => {
+      try { document.body.classList.remove('day-mode') } catch (e) {}
+    }
+  }, [])
 
   const handleViewSelection = async (viewType) => {
     // Immediately navigate to the requested view to avoid blocking the UI.
@@ -58,14 +71,17 @@ const LandingPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-800 to-indigo-900 flex items-center justify-center relative overflow-hidden la-theme">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
-        <div className="absolute top-20 right-20 w-32 h-32 bg-gradient-to-r from-green-400/30 to-emerald-400/30 rounded-full blur-2xl animate-bounce" style={{animationDuration: '3s'}}></div>
-        <div className="absolute bottom-20 left-20 w-24 h-24 bg-gradient-to-r from-red-400/30 to-pink-400/30 rounded-full blur-2xl animate-bounce" style={{animationDuration: '4s', animationDelay: '1s'}}></div>
+    <div className="day-mode la-theme" style={{minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden'}}>
+      {/* Design System Background Animation */}
+      <div className="bg-animation"></div>
+      <div className="particles">
+        {[...Array(15)].map((_, i) => (
+          <div key={i} className="particle" style={{
+            left: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 20}s`,
+            animationDuration: `${15 + Math.random() * 10}s`
+          }}></div>
+        ))}
       </div>
       
       <div className="text-center relative z-10 max-w-5xl mx-auto px-6">
@@ -76,41 +92,35 @@ const LandingPage = () => {
           </h1>
           <p className="text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed font-medium">
             🚀 Empowering learners and organizations with 
-            <span className="bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent font-bold"> AI-driven</span> personalized learning paths
+            <span style={{background: 'linear-gradient(135deg, #065f46, #047857)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', fontWeight: 'bold'}}> AI-driven</span> personalized learning paths
           </p>
         </div>
         
-        {/* Vibrant button container */}
-        <div className="flex flex-col lg:flex-row gap-10 justify-center items-center">
-          <button
-            onClick={() => handleViewSelection('learner')}
-            className="group relative w-96 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-400 hover:via-purple-400 hover:to-pink-400 text-white font-bold py-8 px-10 rounded-3xl text-2xl transition-all duration-500 transform hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/50 border-2 border-white/20 backdrop-blur-sm"
-          >
-            <div className="flex items-center justify-center space-x-6">
-              <div className="text-5xl group-hover:scale-125 transition-transform duration-500 group-hover:rotate-12">👨‍🎓</div>
-              <div className="text-left">
-                <div className="text-2xl font-black">Learner Path</div>
-                <div className="text-lg text-white/90 font-medium">Personalized AI learning journey</div>
-              </div>
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-3xl blur opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
-          </button>
+        {/* Design System Buttons */}
+        <div className="user-cards" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', justifyContent: 'center', maxWidth: '900px', margin: '0 auto'}}>
+          <div className="user-card" onClick={() => handleViewSelection('learner')}>
+            <div className="user-icon">👨‍🎓</div>
+            <h3 className="user-title">Learner Path</h3>
+            <p className="user-description">Personalized AI learning journey</p>
+            <ul className="user-features" style={{listStyle: 'none', textAlign: 'left'}}>
+              <li>AI-powered recommendations</li>
+              <li>Personalized learning paths</li>
+              <li>Progress tracking</li>
+              <li>Interactive courses</li>
+            </ul>
+          </div>
           
-          <button
-            onClick={() => handleViewSelection('company')}
-            className="group relative w-96 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:via-teal-400 hover:to-cyan-400 text-white font-bold py-8 px-10 rounded-3xl text-2xl transition-all duration-500 transform hover:scale-110 hover:shadow-2xl hover:shadow-emerald-500/50 border-2 border-white/20 backdrop-blur-sm"
-          >
-            <div className="flex items-center justify-center space-x-6">
-              <div className="text-5xl group-hover:scale-125 transition-transform duration-500 group-hover:rotate-12">🏢</div>
-              <div className="text-left">
-                <div className="text-2xl font-black">Company Workers</div>
-                <div className="text-lg text-white/90 font-medium">Team learning management</div>
-              </div>
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 rounded-3xl blur opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
-          </button>
+          <div className="user-card" onClick={() => handleViewSelection('company')}>
+            <div className="user-icon">🏢</div>
+            <h3 className="user-title">Company Workers</h3>
+            <p className="user-description">Team learning management</p>
+            <ul className="user-features" style={{listStyle: 'none', textAlign: 'left'}}>
+              <li>Team analytics</li>
+              <li>Course management</li>
+              <li>Progress reports</li>
+              <li>Custom courses</li>
+            </ul>
+          </div>
         </div>
         
         {/* Vibrant feature indicators */}
