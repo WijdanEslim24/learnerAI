@@ -1,0 +1,69 @@
+:root{
+  --la-bg-start: #081229; /* deep navy */
+  --la-bg-end: #114a7a;   /* slightly lighter teal-blue for brighter look */
+  --la-accent-1: #1e90ff; /* brighter DodgerBlue */
+  --la-on-accent: #ffffff; /* text color to use on accent/dark backgrounds */
+  --la-accent-2: #7c3aed; /* purple-600 */
+  --la-card-bg: rgba(255,255,255,0.04);
+  --la-card-border: rgba(255,255,255,0.06);
+  --la-muted: rgba(255,255,255,0.6);
+}
+
+.la-theme{
+  background: linear-gradient(135deg,var(--la-bg-start), var(--la-bg-end));
+  /* ensure primary text on the dark/blue theme is white */
+  color: var(--la-on-accent);
+}
+
+.la-theme .la-card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid var(--la-card-border);
+  box-shadow: 0 6px 24px rgba(2,6,23,0.6);
+  /* keep card body text slightly muted for hierarchy */
+  color: var(--la-muted);
+}
+
+.la-btn{
+  background-image: linear-gradient(90deg,var(--la-accent-1), var(--la-accent-2));
+  color: white !important;
+  border: none !important;
+  /* use a soft glow that follows the brighter blue accent */
+  box-shadow: 0 8px 30px rgba(30,144,255,0.16);
+}
+
+.la-btn:hover{
+  transform: translateY(-2px);
+}
+
+/* make selects slightly transparent to match theme */
+.la-theme select{
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid var(--la-card-border);
+}
+
+/* dotted separator (if still used) */
+.la-dots{
+  color: rgba(255,255,255,0.35);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace;
+  text-align: center;
+}
+
+/* subtle avatar circle override */
+.la-avatar{
+  background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+/*
+ * Force the blue page background globally.
+ * This will override per-section Tailwind background classes so the
+ * same blue gradient appears on every view without editing each JSX file.
+ */
+html, body, #root, .la-theme {
+  background: linear-gradient(135deg, var(--la-bg-start), var(--la-bg-end)) !important;
+  min-height: 100vh;
+  background-attachment: fixed;
+}
+
+/* Keep cards and other components able to set their own subtle backgrounds */
+.la-theme .la-card { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
