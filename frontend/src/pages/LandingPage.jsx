@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { getUserType } from '../services/api'
-import '../styles/theme.css'
 import './landing.css'
 
 // helper: initials for avatars
@@ -119,7 +118,7 @@ const LandingPage = () => {
         ))}
       </div>
       
-      <div className="text-center relative z-10 max-w-5xl mx-auto px-6">
+      <div className="text-center relative z-10 w-full px-6" style={{maxWidth: '100%', padding: '0 1rem'}}>
         {/* Main heading with Dark Emerald styling */}
         <div className="mb-20">
           <h1 className="text-7xl font-black text-white mb-8 bg-gradient-to-r from-green-400 via-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent animate-pulse">
@@ -131,7 +130,7 @@ const LandingPage = () => {
         </div>
         
         {/* Design System Buttons */}
-        <div className="user-cards" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', justifyContent: 'center', maxWidth: '900px', margin: '0 auto'}}>
+        <div className="user-cards" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', justifyContent: 'center', maxWidth: '100%', margin: '0 auto', width: '100%', padding: '0 2rem'}}>
           <div className="user-card" onClick={() => handleViewSelection('learner')}>
             <div className="user-icon">👨‍🎓</div>
             <h3 className="user-title">Learner Path</h3>
