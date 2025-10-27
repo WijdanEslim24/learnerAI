@@ -1008,6 +1008,233 @@ const CompanyView = ({ onBack, isDarkMode, setIsDarkMode }) => {
     return worker.learningPath.courses?.find(course => course.id === selectedCourse)
   }
 
+  // Generate personalized learning path based on course title
+  const generateLearningPathStages = (courseTitle) => {
+    const title = (courseTitle || '').toLowerCase()
+    
+    // React/Hooks courses
+    if (title.includes('react') || title.includes('hooks')) {
+      return [
+        {
+          stage: 1,
+          title: 'React Fundamentals',
+          steps: [
+            { number: 1, name: 'Introduction to React', description: 'Components, JSX, and Virtual DOM' },
+            { number: 2, name: 'Props and State', description: 'Data flow in React applications' },
+            { number: 3, name: 'React Hooks Basics', description: 'useState, useEffect, and custom hooks' }
+          ]
+        },
+        {
+          stage: 2,
+          title: 'Advanced Patterns',
+          steps: [
+            { number: 4, name: 'Context API', description: 'Global state management' },
+            { number: 5, name: 'Performance Optimization', description: 'Memo, Callback, and optimization techniques' },
+            { number: 6, name: 'Custom Hooks', description: 'Building reusable hook logic' }
+          ]
+        },
+        {
+          stage: 3,
+          title: 'Real-World Projects',
+          steps: [
+            { number: 7, name: 'Project Implementation', description: 'Build a complete React app' },
+            { number: 8, name: 'Testing & Debugging', description: 'Testing strategies and tools' }
+          ]
+        }
+      ]
+    }
+    
+    // JavaScript courses
+    if (title.includes('javascript') || title.includes('js')) {
+      return [
+        {
+          stage: 1,
+          title: 'JavaScript Basics',
+          steps: [
+            { number: 1, name: 'Syntax & Types', description: 'Variables, data types, and operators' },
+            { number: 2, name: 'Functions & Scope', description: 'Function declarations and closures' },
+            { number: 3, name: 'Control Flow', description: 'Loops and conditionals' }
+          ]
+        },
+        {
+          stage: 2,
+          title: 'Modern JavaScript',
+          steps: [
+            { number: 4, name: 'ES6+ Features', description: 'Arrow functions, destructuring, spread' },
+            { number: 5, name: 'Async Programming', description: 'Promises, async/await' },
+            { number: 6, name: 'Modules', description: 'Import/export and module systems' }
+          ]
+        },
+        {
+          stage: 3,
+          title: 'Advanced Concepts',
+          steps: [
+            { number: 7, name: 'Advanced Patterns', description: 'Design patterns and best practices' },
+            { number: 8, name: 'Project Practice', description: 'Build real-world applications' }
+          ]
+        }
+      ]
+    }
+    
+    // Node.js courses
+    if (title.includes('node') || title.includes('backend')) {
+      return [
+        {
+          stage: 1,
+          title: 'Node.js Fundamentals',
+          steps: [
+            { number: 1, name: 'Setup & Core Concepts', description: 'NPM, modules, and Node runtime' },
+            { number: 2, name: 'File System & Streams', description: 'Working with files and data streams' },
+            { number: 3, name: 'Events & Async', description: 'Event loop and asynchronous operations' }
+          ]
+        },
+        {
+          stage: 2,
+          title: 'Express & Web Development',
+          steps: [
+            { number: 4, name: 'Express Framework', description: 'Routing, middleware, and API design' },
+            { number: 5, name: 'Database Integration', description: 'MongoDB and SQL databases' },
+            { number: 6, name: 'Authentication', description: 'JWT and secure APIs' }
+          ]
+        },
+        {
+          stage: 3,
+          title: 'Production & Deployment',
+          steps: [
+            { number: 7, name: 'Testing & Debugging', description: 'Unit and integration tests' },
+            { number: 8, name: 'Deployment', description: 'Cloud deployment and CI/CD' }
+          ]
+        }
+      ]
+    }
+    
+    // Data Structures courses
+    if (title.includes('data') || title.includes('structure')) {
+      return [
+        {
+          stage: 1,
+          title: 'Basic Structures',
+          steps: [
+            { number: 1, name: 'Arrays & Lists', description: 'Linear data structures' },
+            { number: 2, name: 'Stacks & Queues', description: 'LIFO and FIFO structures' },
+            { number: 3, name: 'Hash Tables', description: 'Key-value storage and hashing' }
+          ]
+        },
+        {
+          stage: 2,
+          title: 'Advanced Structures',
+          steps: [
+            { number: 4, name: 'Trees', description: 'Binary trees and traversals' },
+            { number: 5, name: 'Graphs', description: 'Graph representations and algorithms' },
+            { number: 6, name: 'Algorithms', description: 'Sorting and searching techniques' }
+          ]
+        },
+        {
+          stage: 3,
+          title: 'Optimization',
+          steps: [
+            { number: 7, name: 'Time Complexity', description: 'Big O analysis' },
+            { number: 8, name: 'Practice Problems', description: 'Solve real-world challenges' }
+          ]
+        }
+      ]
+    }
+    
+    // Vue courses
+    if (title.includes('vue')) {
+      return [
+        {
+          stage: 1,
+          title: 'Vue Fundamentals',
+          steps: [
+            { number: 1, name: 'Introduction & Setup', description: 'Vue CLI and project structure' },
+            { number: 2, name: 'Components & Templates', description: 'Single File Components' },
+            { number: 3, name: 'Reactivity System', description: 'Data binding and reactivity' }
+          ]
+        },
+        {
+          stage: 2,
+          title: 'Advanced Vue',
+          steps: [
+            { number: 4, name: 'Composition API', description: 'Modern Vue patterns' },
+            { number: 5, name: 'State Management', description: 'Pinia and Vuex' },
+            { number: 6, name: 'Routing', description: 'Vue Router implementation' }
+          ]
+        },
+        {
+          stage: 3,
+          title: 'Production Ready',
+          steps: [
+            { number: 7, name: 'Performance', description: 'Optimization techniques' },
+            { number: 8, name: 'Testing & Build', description: 'Testing and deployment' }
+          ]
+        }
+      ]
+    }
+    
+    // Performance Optimization courses
+    if (title.includes('performance') || title.includes('optimization')) {
+      return [
+        {
+          stage: 1,
+          title: 'Profiling & Analysis',
+          steps: [
+            { number: 1, name: 'Performance Metrics', description: 'Measuring performance effectively' },
+            { number: 2, name: 'Profiling Tools', description: 'Using Chrome DevTools' },
+            { number: 3, name: 'Identifying Bottlenecks', description: 'Finding optimization opportunities' }
+          ]
+        },
+        {
+          stage: 2,
+          title: 'Code Optimization',
+          steps: [
+            { number: 4, name: 'Algorithm Optimization', description: 'Efficient algorithms and data structures' },
+            { number: 5, name: 'Memory Management', description: 'Reducing memory footprint' },
+            { number: 6, name: 'Browser Optimization', description: 'DOM manipulation and rendering' }
+          ]
+        },
+        {
+          stage: 3,
+          title: 'Advanced Techniques',
+          steps: [
+            { number: 7, name: 'Caching Strategies', description: 'API and asset caching' },
+            { number: 8, name: 'Load & Bundle Optimization', description: 'Code splitting and lazy loading' }
+          ]
+        }
+      ]
+    }
+    
+    // Default learning path for any other course
+    return [
+      {
+        stage: 1,
+        title: 'Foundation',
+        steps: [
+          { number: 1, name: 'Core Concepts', description: 'Understanding the fundamentals' },
+          { number: 2, name: 'Best Practices', description: 'Industry standards and patterns' },
+          { number: 3, name: 'Tools & Setup', description: 'Development environment' }
+        ]
+      },
+      {
+        stage: 2,
+        title: 'Intermediate Topics',
+        steps: [
+          { number: 4, name: 'Advanced Features', description: 'Deep dive into key concepts' },
+          { number: 5, name: 'Practical Application', description: 'Real-world scenarios' },
+          { number: 6, name: 'Problem Solving', description: 'Common challenges' }
+        ]
+      },
+      {
+        stage: 3,
+        title: 'Mastery',
+        steps: [
+          { number: 7, name: 'Expert Techniques', description: 'Advanced strategies' },
+          { number: 8, name: 'Final Project', description: 'Comprehensive application' }
+        ]
+      }
+    ]
+  }
+
   // Collapse the learning path view whenever the selected worker or course changes
   useEffect(() => {
     setCoursePathExpanded(false)
@@ -1392,81 +1619,29 @@ const CompanyView = ({ onBack, isDarkMode, setIsDarkMode }) => {
           </p>
         </div>
 
-        {/* Main Content Layout - Two Column Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8" style={{maxWidth: '1800px', margin: '0 auto', padding: '0 2rem'}}>
-          {/* Left Column: Worker and Course Selection */}
-          <div className="space-y-6">
-          {/* Card 1: Choose Worker */}
-          <div className="microservice-card" style={{padding: '1.5rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px'}}>
-            <div className="mb-4">
-              <h3 className="font-semibold mb-3" style={{color: 'var(--text-primary)'}}>📋 All Workers ({workers?.length || 0})</h3>
-              
-              {/* Compact worker list */}
-              <div className="grid grid-cols-2 md:grid-cols-2 gap-3 mb-4 max-h-64 overflow-y-auto">
-                {workers?.map((worker) => {
-                  const isSelected = selectedWorker === worker.id
-                  return (
-                    <div
-                      key={worker.id}
-                      onClick={() => handleWorkerChange(worker.id)}
-                      className="p-3 rounded-lg cursor-pointer transition-all duration-200"
-                      style={{
-                        background: isSelected ? 'var(--bg-tertiary)' : 'var(--bg-secondary)',
-                        border: isSelected ? '2px solid var(--primary-cyan)' : '1px solid var(--bg-tertiary)',
-                        transform: isSelected ? 'scale(1.05)' : 'scale(1)'
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isSelected) e.target.style.background = 'var(--bg-tertiary)'
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!isSelected) e.target.style.background = 'var(--bg-secondary)'
-                      }}
-                    >
-                      <div className="flex items-center gap-2">
-                        <div 
-                          className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold"
-                          style={{
-                            background: isSelected ? 'var(--gradient-primary)' : 'var(--bg-tertiary)',
-                            color: 'white'
-                          }}
-                        >
-                          {getInitials(worker.name)}
-          </div>
-                        <span className="font-medium text-sm" style={{color: 'var(--text-primary)'}}>{worker.name}</span>
-        </div>
-                      {isSelected && (
-                        <div className="text-xs mt-2" style={{color: 'var(--text-secondary)'}}>
-                          ✓ Selected
-                        </div>
-                      )}
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-                  </div>
-                  
-          {/* Card 2: Choose Course (only show if worker selected) */}
-          {selectedWorker && (
+        {/* Main Content Layout - Split Screen when learning path expanded, otherwise grid */}
+        {!coursePathExpanded ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8" style={{maxWidth: '1800px', margin: '0 auto', padding: '0 2rem'}}>
+            {/* Left Column: Worker and Course Selection */}
+            <div className="space-y-6">
+            {/* Card 1: Choose Worker */}
             <div className="microservice-card" style={{padding: '1.5rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px'}}>
               <div className="mb-4">
-                <h3 className="font-semibold mb-3" style={{color: 'var(--text-primary)'}}>
-                  📚 Courses for {workers?.find(w => w.id === selectedWorker)?.name}
-                </h3>
+                <h3 className="font-semibold mb-3" style={{color: 'var(--text-primary)'}}>📋 All Workers ({workers?.length || 0})</h3>
                 
-                {/* Compact course list */}
-                <div className="space-y-3">
-                  {getSelectedWorker()?.learningPath.courses?.map((course) => {
-                    const isSelected = selectedCourse === course.id
+                {/* Compact worker list */}
+                <div className="grid grid-cols-2 md:grid-cols-2 gap-3 mb-4 max-h-64 overflow-y-auto">
+                  {workers?.map((worker) => {
+                    const isSelected = selectedWorker === worker.id
                     return (
                       <div
-                        key={course.id}
-                        onClick={() => handleCourseChange(course.id)}
-                        className="p-4 rounded-lg cursor-pointer transition-all duration-200"
-                          style={{ 
+                        key={worker.id}
+                        onClick={() => handleWorkerChange(worker.id)}
+                        className="p-3 rounded-lg cursor-pointer transition-all duration-200"
+                        style={{
                           background: isSelected ? 'var(--bg-tertiary)' : 'var(--bg-secondary)',
                           border: isSelected ? '2px solid var(--primary-cyan)' : '1px solid var(--bg-tertiary)',
-                          transform: isSelected ? 'scale(1.02)' : 'scale(1)'
+                          transform: isSelected ? 'scale(1.05)' : 'scale(1)'
                         }}
                         onMouseEnter={(e) => {
                           if (!isSelected) e.target.style.background = 'var(--bg-tertiary)'
@@ -1475,232 +1650,455 @@ const CompanyView = ({ onBack, isDarkMode, setIsDarkMode }) => {
                           if (!isSelected) e.target.style.background = 'var(--bg-secondary)'
                         }}
                       >
-                        <div className="flex items-start gap-3">
+                        <div className="flex items-center gap-2">
                           <div 
-                            className="w-10 h-10 rounded-lg flex items-center justify-center text-xl flex-shrink-0"
+                            className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold"
                             style={{
-                              background: 'var(--gradient-primary)',
+                              background: isSelected ? 'var(--gradient-primary)' : 'var(--bg-tertiary)',
                               color: 'white'
                             }}
                           >
-                            📘
-                      </div>
-                          <div className="flex-1">
-                            <p className="font-semibold" style={{color: 'var(--text-primary)'}}>{course.title}</p>
-                            <div className="flex items-center gap-2 mt-2">
-                              <span className={`text-xs px-2 py-1 rounded-full ${
-                                course.status === 'Completed' ? 'bg-green-500/20 text-green-400' :
-                                course.status === 'In Progress' ? 'bg-blue-500/20 text-blue-400' :
-                                'bg-gray-500/20 text-gray-400'
-                              }`}>
-                                {course.status === 'Completed' ? '✅' : course.status === 'In Progress' ? '🔄' : '⏳'} {course.status || 'Not Started'}
-                              </span>
-                    </div>
-                  </div>
-                  </div>
+                            {getInitials(worker.name)}
+          </div>
+                          <span className="font-medium text-sm" style={{color: 'var(--text-primary)'}}>{worker.name}</span>
+        </div>
+                        {isSelected && (
+                          <div className="text-xs mt-2" style={{color: 'var(--text-secondary)'}}>
+                            ✓ Selected
+                          </div>
+                        )}
                       </div>
                     )
                   })}
                 </div>
               </div>
-            </div>
-          )}
+                    </div>
+                    
+            {/* Card 2: Choose Course (only show if worker selected) */}
+            {selectedWorker && (
+              <div className="microservice-card" style={{padding: '1.5rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px'}}>
+                <div className="mb-4">
+                  <h3 className="font-semibold mb-3" style={{color: 'var(--text-primary)'}}>
+                    📚 Courses for {workers?.find(w => w.id === selectedWorker)?.name}
+                  </h3>
+                  
+                  {/* Compact course list */}
+                  <div className="space-y-3">
+                    {getSelectedWorker()?.learningPath.courses?.map((course) => {
+                      const isSelected = selectedCourse === course.id
+                      return (
+                        <div
+                          key={course.id}
+                          onClick={() => handleCourseChange(course.id)}
+                          className="p-4 rounded-lg cursor-pointer transition-all duration-200"
+                            style={{ 
+                            background: isSelected ? 'var(--bg-tertiary)' : 'var(--bg-secondary)',
+                            border: isSelected ? '2px solid var(--primary-cyan)' : '1px solid var(--bg-tertiary)',
+                            transform: isSelected ? 'scale(1.02)' : 'scale(1)'
+                          }}
+                          onMouseEnter={(e) => {
+                            if (!isSelected) e.target.style.background = 'var(--bg-tertiary)'
+                          }}
+                          onMouseLeave={(e) => {
+                            if (!isSelected) e.target.style.background = 'var(--bg-secondary)'
+                          }}
+                        >
+                          <div className="flex items-start gap-3">
+                            <div 
+                              className="w-10 h-10 rounded-lg flex items-center justify-center text-xl flex-shrink-0"
+                              style={{
+                                background: 'var(--gradient-primary)',
+                                color: 'white'
+                              }}
+                            >
+                              📘
+                      </div>
+                            <div className="flex-1">
+                              <p className="font-semibold" style={{color: 'var(--text-primary)'}}>{course.title}</p>
+                              <div className="flex items-center gap-2 mt-2">
+                                <span className={`text-xs px-2 py-1 rounded-full ${
+                                  course.status === 'Completed' ? 'bg-green-500/20 text-green-400' :
+                                  course.status === 'In Progress' ? 'bg-blue-500/20 text-blue-400' :
+                                  'bg-gray-500/20 text-gray-400'
+                                }`}>
+                                  {course.status === 'Completed' ? '✅' : course.status === 'In Progress' ? '🔄' : '⏳'} {course.status || 'Not Started'}
+                                </span>
+                    </div>
+                  </div>
+                  </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
 
-          {/* Card 3: Course Details moved to right column (now empty here) */}
+            {/* Card 3: Course Details moved to right column (now empty here) */}
+            </div>
+            
+            {/* Right Column: Full Learning Path - compact by default with expand/collapse */}
+            {selectedWorker && (
+              <div className="lg:sticky lg:top-8" style={{alignSelf: 'flex-start', maxHeight: 'calc(100vh - 120px)', overflow: 'auto'}}>
+                {/* Top: Course Details panel (shows when a course is selected) */}
+                {selectedCourse ? (
+                  <div className="microservice-card" style={{padding: '2rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px', marginBottom: '1rem'}}>
+                    {/* Title and Worker Name */}
+                    <div className="mb-6">
+                      <h2 className="text-2xl font-bold mb-2" style={{color: 'var(--text-primary)'}}>
+                        {getSelectedCourse()?.title}
+                      </h2>
+                      <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>👤 {getSelectedWorker()?.name}</p>
+                    </div>
+
+                    {/* Course Details Table */}
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between border-b pb-3" style={{borderColor: 'var(--bg-tertiary)'}}>
+                        <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Progress</span>
+                        <span className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>
+                          {getSelectedCourse()?.status === 'Completed' ? '100%' :
+                           getSelectedCourse()?.status === 'In Progress' ? '65%' : '0%'}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center justify-between border-b pb-3" style={{borderColor: 'var(--bg-tertiary)'}}>
+                        <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Status</span>
+                        <span className={`text-sm px-3 py-1 rounded-full flex items-center gap-1 ${
+                          getSelectedCourse()?.status === 'Completed' ? 'bg-green-500 text-white' :
+                          getSelectedCourse()?.status === 'In Progress' ? 'bg-blue-500 text-white' :
+                          'bg-gray-500 text-white'
+                        }`}>
+                          {getSelectedCourse()?.status === 'Completed' ? '✅ Completed' :
+                           getSelectedCourse()?.status === 'In Progress' ? '🔄 In Progress' :
+                           '⏳ Not Started'}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center justify-between border-b pb-3" style={{borderColor: 'var(--bg-tertiary)'}}>
+                        <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Duration</span>
+                        <span className="text-lg font-semibold" style={{color: 'var(--text-primary)'}}>
+                          {getSelectedCourse()?.duration || '10 hours'}
+                        </span>
+                      </div>
+
+                      {getSelectedCourse()?.score && (
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Score</span>
+                          <span className="text-lg font-semibold" style={{color: 'var(--accent-green)'}}>{getSelectedCourse()?.score}%</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="microservice-card" style={{padding: '1.5rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '12px', marginBottom: '1rem'}}>
+                    <p style={{color: 'var(--text-secondary)'}}>Select a course to view details.</p>
+                  </div>
+                )}
+
+                {/* Below: Learning Path compact view with "View learning path" button */}
+                {selectedWorker && selectedCourse && (
+                  <div className="microservice-card" style={{padding: '1.25rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '12px'}}>
+                    <div className="mb-4">
+                      <h3 className="text-lg font-bold" style={{color: 'var(--text-primary)'}}>📚 {getSelectedCourse()?.title} — Learning Path</h3>
+                      <p className="text-sm" style={{color: 'var(--text-secondary)'}}>👤 {getSelectedWorker()?.name} • Summary view</p>
+                    </div>
+
+                    <div style={{display: 'grid', gap: '0.5rem'}}>
+                      <div style={{padding: '0.75rem', background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)', borderRadius: '8px'}}>
+                        <p className="font-medium" style={{color: 'var(--text-primary)', marginBottom: '0.25rem'}}>Overview</p>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>A condensed summary of the learning path. Expand to view all stages and detailed steps.</p>
+                      </div>
+
+                      <div style={{padding: '0.75rem', background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)', borderRadius: '8px'}}>
+                        <p className="font-semibold" style={{color: 'var(--text-primary)', marginBottom: '0.25rem'}}>Stage preview</p>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Stage 1: The Foundation — core concepts and quick wins</p>
+                      </div>
+
+                      <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: '0.5rem'}}>
+                        <button onClick={() => setCoursePathExpanded(true)} className="px-4 py-2 rounded-lg font-semibold" style={{background: 'var(--gradient-primary)', color: 'white', border: 'none', cursor: 'pointer'}}>View learning path</button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
-          
-          {/* Right Column: Full Learning Path - compact by default with expand/collapse */}
-          {selectedWorker && (
-            <div className="lg:sticky lg:top-8" style={{alignSelf: 'flex-start', maxHeight: 'calc(100vh - 120px)', overflow: 'auto'}}>
-              {/* Top: Course Details panel (shows when a course is selected) */}
-              {selectedCourse ? (
-                <div className="microservice-card" style={{padding: '2rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px', marginBottom: '1rem'}}>
-                  {/* Title and Worker Name */}
-                  <div className="mb-6">
-                    <h2 className="text-2xl font-bold mb-2" style={{color: 'var(--text-primary)'}}>
-                      {getSelectedCourse()?.title}
-                    </h2>
-                    <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>👤 {getSelectedWorker()?.name}</p>
-                  </div>
-
-                  {/* Course Details Table */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between border-b pb-3" style={{borderColor: 'var(--bg-tertiary)'}}>
-                      <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Progress</span>
-                      <span className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>
-                        {getSelectedCourse()?.status === 'Completed' ? '100%' :
-                         getSelectedCourse()?.status === 'In Progress' ? '65%' : '0%'}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between border-b pb-3" style={{borderColor: 'var(--bg-tertiary)'}}>
-                      <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Status</span>
-                      <span className={`text-sm px-3 py-1 rounded-full flex items-center gap-1 ${
-                        getSelectedCourse()?.status === 'Completed' ? 'bg-green-500 text-white' :
-                        getSelectedCourse()?.status === 'In Progress' ? 'bg-blue-500 text-white' :
-                        'bg-gray-500 text-white'
-                      }`}>
-                        {getSelectedCourse()?.status === 'Completed' ? '✅ Completed' :
-                         getSelectedCourse()?.status === 'In Progress' ? '🔄 In Progress' :
-                         '⏳ Not Started'}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between border-b pb-3" style={{borderColor: 'var(--bg-tertiary)'}}>
-                      <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Duration</span>
-                      <span className="text-lg font-semibold" style={{color: 'var(--text-primary)'}}>
-                        {getSelectedCourse()?.duration || '10 hours'}
-                      </span>
-                    </div>
-
-                    {getSelectedCourse()?.score && (
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Score</span>
-                        <span className="text-lg font-semibold" style={{color: 'var(--accent-green)'}}>{getSelectedCourse()?.score}%</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <div className="microservice-card" style={{padding: '1.5rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '12px', marginBottom: '1rem'}}>
-                  <p style={{color: 'var(--text-secondary)'}}>Select a course to view details.</p>
-                </div>
-              )}
-
-              {/* Below: Learning Path (compact/expandable as before) */}
-              {selectedWorker && selectedCourse && (
-                <>
-                  {!coursePathExpanded ? (
-                    <div className="microservice-card" style={{padding: '1.25rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '12px'}}>
-                      <div className="mb-4">
-                        <h3 className="text-lg font-bold" style={{color: 'var(--text-primary)'}}>📚 {getSelectedCourse()?.title} — Learning Path</h3>
-                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>👤 {getSelectedWorker()?.name} • Summary view</p>
-                      </div>
-
-                      <div style={{display: 'grid', gap: '0.5rem'}}>
-                        <div style={{padding: '0.75rem', background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)', borderRadius: '8px'}}>
-                          <p className="font-medium" style={{color: 'var(--text-primary)', marginBottom: '0.25rem'}}>Overview</p>
-                          <p className="text-sm" style={{color: 'var(--text-secondary)'}}>A condensed summary of the learning path. Expand to view all stages and detailed steps.</p>
-                        </div>
-
-                        <div style={{padding: '0.75rem', background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)', borderRadius: '8px'}}>
-                          <p className="font-semibold" style={{color: 'var(--text-primary)', marginBottom: '0.25rem'}}>Stage preview</p>
-                          <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Stage 1: The Foundation — core concepts and quick wins</p>
-                        </div>
-
-                        <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: '0.5rem'}}>
-                          <button onClick={() => setCoursePathExpanded(true)} className="px-4 py-2 rounded-lg font-semibold" style={{background: 'var(--gradient-primary)', color: 'white', border: 'none', cursor: 'pointer'}}>View learning path</button>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="microservice-card" style={{padding: '2rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px'}}>
-                      <div className="mb-6" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem'}}>
-                        <div>
-                          <h2 className="text-2xl font-bold mb-2" style={{color: 'var(--text-primary)'}}>📚 {getSelectedCourse()?.title} Learning Path</h2>
-                          <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>👤 {getSelectedWorker()?.name} • Full path view</p>
-                        </div>
-                        <div style={{marginLeft: 'auto'}}>
-                          <button onClick={() => setCoursePathExpanded(false)} className="px-3 py-2 rounded-md font-medium" style={{background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--bg-tertiary)'}}>Hide learning path</button>
-                        </div>
-                      </div>
-
-                      <div className="space-y-6">
-                        {/* Stage 1 */}
-                        <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
-                          <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>Stage 1: The Foundation - Algorithmic and Code Efficiency</h3>
-                          <div className="space-y-3">
-                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 1: Theoretical Grounding</p>
-                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Big O Notation and Amdahl's Law</p>
-                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Graded Quiz on complexity</p>
-                            </div>
-                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 2: Profiling Fundamentals</p>
-                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Benchmarking and Hotspot Identification</p>
-                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Lab Challenge - Profile Report</p>
-                            </div>
-                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 3: Micro-Optimization</p>
-                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Memory and Concurrency basics</p>
-                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Peer Review</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Stage 2 */}
-                        <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
-                          <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>Stage 2: The Data Layer - Database and Caching Tuning</h3>
-                          <div className="space-y-3">
-                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 4: Query Analysis</p>
-                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Execution Plans and Indexing</p>
-                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Analyze 5 SQL queries</p>
-                            </div>
-                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 5: Caching Implementation</p>
-                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Layered Caching (In-memory, CDN)</p>
-                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Live Demo</p>
-                            </div>
-                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 6: Scaling Concepts</p>
-                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Database Architecture</p>
-                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Conceptual Exam</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Stage 3 */}
-                        <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
-                          <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>Stage 3: The Environment - Infrastructure and Network</h3>
-                          <div className="space-y-3">
-                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 7: System Tuning</p>
-                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>OS and I/O optimization</p>
-                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Configuration Audit</p>
-                            </div>
-                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 8: Network Efficiency</p>
-                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Latency Reduction and Protocols</p>
-                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Problem Solving</p>
-                            </div>
-                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 9: Scaling Architecture</p>
-                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Load Balancing and Observability</p>
-                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Integrated Project</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Stage 4 */}
-                        <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
-                          <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>Stage 4: Mastery and Automation</h3>
-                          <div className="space-y-3">
-                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 10: Performance Testing</p>
-                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Load, Stress, and Soak testing</p>
-                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Testing Report</p>
-                            </div>
-                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 11: CI/CD Integration</p>
-                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Automating Regression Checks</p>
-                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Practical Task</p>
-                            </div>
-                            <div className="p-3 rounded-lg" style={{background: 'var(--gradient-primary)', border: '1px solid var(--primary-cyan)', borderRadius: '12px'}}>
-                              <p className="font-semibold mb-1" style={{color: 'white'}}>🏆 Step 12: Final Capstone Project</p>
-                              <p className="text-sm" style={{color: 'rgba(255,255,255,0.9)'}}>The Optimization Audit - Full Skill Synthesis</p>
-                              <p className="text-xs mt-1 font-bold" style={{color: 'white'}}>🎯 Mastery Gate: Complete Audit Report</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          )}
+        ) : (
+          /* Split Screen Layout when learning path is expanded */
+          <div style={{display: 'flex', gap: '0', width: '100vw', height: 'calc(100vh - 120px)', margin: '0', padding: '0', position: 'fixed', top: '120px', left: '0', zIndex: 100}}>
+            {/* Left Content (50%) */}
+            <div style={{width: '50%', overflow: 'auto', padding: '2rem'}}>
+              <div className="space-y-6">
+                {/* Card 1: Choose Worker */}
+                <div className="microservice-card" style={{padding: '1.5rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px'}}>
+                  <div className="mb-4">
+                    <h3 className="font-semibold mb-3" style={{color: 'var(--text-primary)'}}>📋 All Workers ({workers?.length || 0})</h3>
+                    
+                    {/* Compact worker list */}
+                    <div className="grid grid-cols-2 md:grid-cols-2 gap-3 mb-4 max-h-64 overflow-y-auto">
+                      {workers?.map((worker) => {
+                        const isSelected = selectedWorker === worker.id
+                        return (
+                          <div
+                            key={worker.id}
+                            onClick={() => handleWorkerChange(worker.id)}
+                            className="p-3 rounded-lg cursor-pointer transition-all duration-200"
+                            style={{
+                              background: isSelected ? 'var(--bg-tertiary)' : 'var(--bg-secondary)',
+                              border: isSelected ? '2px solid var(--primary-cyan)' : '1px solid var(--bg-tertiary)',
+                              transform: isSelected ? 'scale(1.05)' : 'scale(1)'
+                            }}
+                            onMouseEnter={(e) => {
+                              if (!isSelected) e.target.style.background = 'var(--bg-tertiary)'
+                            }}
+                            onMouseLeave={(e) => {
+                              if (!isSelected) e.target.style.background = 'var(--bg-secondary)'
+                            }}
+                          >
+                            <div className="flex items-center gap-2">
+                              <div 
+                                className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold"
+                                style={{
+                                  background: isSelected ? 'var(--gradient-primary)' : 'var(--bg-tertiary)',
+                                  color: 'white'
+                                }}
+                              >
+                                {getInitials(worker.name)}
+          </div>
+                              <span className="font-medium text-sm" style={{color: 'var(--text-primary)'}}>{worker.name}</span>
         </div>
+                            {isSelected && (
+                              <div className="text-xs mt-2" style={{color: 'var(--text-secondary)'}}>
+                                ✓ Selected
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                        </div>
+                        
+                {/* Card 2: Choose Course (only show if worker selected) */}
+                {selectedWorker && (
+                  <div className="microservice-card" style={{padding: '1.5rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px'}}>
+                    <div className="mb-4">
+                      <h3 className="font-semibold mb-3" style={{color: 'var(--text-primary)'}}>
+                        📚 Courses for {workers?.find(w => w.id === selectedWorker)?.name}
+                      </h3>
+                      
+                      {/* Compact course list */}
+                      <div className="space-y-3">
+                        {getSelectedWorker()?.learningPath.courses?.map((course) => {
+                          const isSelected = selectedCourse === course.id
+                          return (
+                            <div
+                              key={course.id}
+                              onClick={() => handleCourseChange(course.id)}
+                              className="p-4 rounded-lg cursor-pointer transition-all duration-200"
+                                style={{ 
+                                background: isSelected ? 'var(--bg-tertiary)' : 'var(--bg-secondary)',
+                                border: isSelected ? '2px solid var(--primary-cyan)' : '1px solid var(--bg-tertiary)',
+                                transform: isSelected ? 'scale(1.02)' : 'scale(1)'
+                              }}
+                              onMouseEnter={(e) => {
+                                if (!isSelected) e.target.style.background = 'var(--bg-tertiary)'
+                              }}
+                              onMouseLeave={(e) => {
+                                if (!isSelected) e.target.style.background = 'var(--bg-secondary)'
+                              }}
+                            >
+                              <div className="flex items-start gap-3">
+                                <div 
+                                  className="w-10 h-10 rounded-lg flex items-center justify-center text-xl flex-shrink-0"
+                                  style={{
+                                    background: 'var(--gradient-primary)',
+                                    color: 'white'
+                                  }}
+                                >
+                                  📘
+                      </div>
+                                <div className="flex-1">
+                                  <p className="font-semibold" style={{color: 'var(--text-primary)'}}>{course.title}</p>
+                                  <div className="flex items-center gap-2 mt-2">
+                                    <span className={`text-xs px-2 py-1 rounded-full ${
+                                      course.status === 'Completed' ? 'bg-green-500/20 text-green-400' :
+                                      course.status === 'In Progress' ? 'bg-blue-500/20 text-blue-400' :
+                                      'bg-gray-500/20 text-gray-400'
+                                    }`}>
+                                      {course.status === 'Completed' ? '✅' : course.status === 'In Progress' ? '🔄' : '⏳'} {course.status || 'Not Started'}
+                                    </span>
+                    </div>
+                  </div>
+                  </div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Right Sidebar for Learning Path (50%) */}
+            {selectedWorker && selectedCourse && (
+              <div style={{width: '50%', overflow: 'auto', padding: '2rem', background: 'var(--bg-card)'}}>
+                <div style={{marginBottom: '2rem'}}>
+                  <button 
+                    onClick={() => setCoursePathExpanded(false)} 
+                    className="mb-4 w-full px-4 py-3 rounded-lg font-semibold" 
+                    style={{background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '2px solid var(--primary-cyan)', cursor: 'pointer'}}
+                  >
+                    ← Close Sidebar
+                  </button>
+                  
+                  <h2 className="text-2xl font-bold mb-2" style={{color: 'var(--text-primary)'}}>📚 {getSelectedCourse()?.title} Learning Path</h2>
+                  <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>👤 {getSelectedWorker()?.name}</p>
+                </div>
+
+                <div className="space-y-5" style={{overflowY: 'auto', maxHeight: 'calc(100vh - 280px)'}}>
+                        {(() => {
+                          const course = getSelectedCourse()
+                          const stages = generateLearningPathStages(course?.title)
+                          return stages.map((stageData, stageIdx) => {
+                            const stageColors = [
+                              { border: '#06b6d4', bg: 'rgba(6, 182, 212, 0.1)', accent: '#0891b2' },
+                              { border: '#10b981', bg: 'rgba(16, 185, 129, 0.1)', accent: '#059669' },
+                              { border: '#8b5cf6', bg: 'rgba(139, 92, 246, 0.1)', accent: '#7c3aed' }
+                            ]
+                            const stageColor = stageColors[stageIdx] || stageColors[0]
+                            const icons = ['🎯', '📘', '✨', '🚀', '💡', '🏆', '⚡', '🎓']
+                            
+                            return (
+                              <div key={stageIdx} style={{
+                                background: `linear-gradient(135deg, ${stageColor.bg} 0%, rgba(255, 255, 255, 0.05) 100%)`,
+                                border: `2px solid ${stageColor.border}`,
+                                borderRadius: '16px',
+                                padding: '1.25rem',
+                                marginTop: stageIdx > 0 ? '1.5rem' : '0',
+                                position: 'relative',
+                                overflow: 'hidden',
+                                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.1)'
+                              }}>
+                                {/* Stage Header */}
+                                <div style={{display: 'flex', alignItems: 'center', marginBottom: '1rem', gap: '0.5rem'}}>
+                                  <div style={{
+                                    width: '32px',
+                                    height: '32px',
+                                    borderRadius: '50%',
+                                    background: `linear-gradient(135deg, ${stageColor.border}, ${stageColor.accent})`,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: 'white',
+                                    fontWeight: 'bold',
+                                    fontSize: '0.875rem',
+                                    boxShadow: `0 4px 12px ${stageColor.border}40`
+                                  }}>
+                                    {stageData.stage}
+                                  </div>
+                                  <h3 style={{
+                                    color: 'var(--text-primary)',
+                                    fontSize: '0.95rem',
+                                    fontWeight: '800',
+                                    margin: 0,
+                                    background: `linear-gradient(135deg, ${stageColor.border}, ${stageColor.accent})`,
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent',
+                                    backgroundClip: 'text'
+                                  }}>
+                                    {stageData.title}
+                                  </h3>
+                                </div>
+                                
+                                {/* Steps */}
+                                <div className="space-y-3">
+                                  {stageData.steps.map((step, stepIdx) => {
+                                    const isLastStep = stageIdx === stages.length - 1 && stepIdx === stageData.steps.length - 1
+                                    return (
+                                      <div 
+                                        key={stepIdx} 
+                                        style={{
+                                          padding: '1rem',
+                                          background: isLastStep 
+                                            ? `linear-gradient(135deg, ${stageColor.border}, ${stageColor.accent})` 
+                                            : 'rgba(255, 255, 255, 0.03)',
+                                          border: isLastStep 
+                                            ? 'none' 
+                                            : `1.5px solid ${stageColor.border}40`,
+                                          borderRadius: '12px',
+                                          transition: 'all 0.3s ease',
+                                          cursor: 'pointer',
+                                          position: 'relative',
+                                          overflow: 'hidden'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                          if (!isLastStep) {
+                                            e.target.style.background = 'rgba(255, 255, 255, 0.08)'
+                                            e.target.style.transform = 'translateX(4px)'
+                                          }
+                                        }}
+                                        onMouseLeave={(e) => {
+                                          if (!isLastStep) {
+                                            e.target.style.background = 'rgba(255, 255, 255, 0.03)'
+                                            e.target.style.transform = 'translateX(0)'
+                                          }
+                                        }}
+                                      >
+                                        <div style={{display: 'flex', gap: '0.75rem', alignItems: 'flex-start'}}>
+                                          {/* Step Icon */}
+                                          <div style={{
+                                            fontSize: '1.5rem',
+                                            lineHeight: '1',
+                                            opacity: isLastStep ? 1 : 0.9
+                                          }}>
+                                            {icons[stepIdx] || '📝'}
+                                          </div>
+                                          
+                                          {/* Step Content */}
+                                          <div style={{flex: 1}}>
+                                            <div style={{display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginBottom: '0.25rem'}}>
+                                              <span style={{
+                                                fontSize: '0.75rem',
+                                                fontWeight: '700',
+                                                color: isLastStep ? 'white' : stageColor.accent,
+                                                opacity: 0.7
+                                              }}>
+                                                {step.number}
+                                              </span>
+                                              <p style={{
+                                                fontSize: '0.875rem',
+                                                fontWeight: '700',
+                                                color: isLastStep ? 'white' : 'var(--text-primary)',
+                                                margin: 0
+                                              }}>
+                                                {step.name}
+                                              </p>
+                                            </div>
+                                            <p style={{
+                                              fontSize: '0.75rem',
+                                              color: isLastStep ? 'rgba(255,255,255,0.85)' : 'var(--text-secondary)',
+                                              margin: 0,
+                                              lineHeight: '1.4'
+                                            }}>
+                                              {step.description}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )
+                                  })}
+                                </div>
+                              </div>
+                            )
+                          })
+                        })()}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       </div>
     </div>
