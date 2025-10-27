@@ -901,6 +901,9 @@ const CompanyView = ({ onBack, isDarkMode, setIsDarkMode }) => {
   const [workerLoading, setWorkerLoading] = useState(false)
   const [courseError, setCourseError] = useState(null)
   const [workerError, setWorkerError] = useState(null)
+  const [coursePathExpanded, setCoursePathExpanded] = useState(false)
+  const [courseSearched, setCourseSearched] = useState(false)
+  const [workerSearched, setWorkerSearched] = useState(false)
 
   useEffect(() => {
     loadWorkers()
@@ -1004,6 +1007,11 @@ const CompanyView = ({ onBack, isDarkMode, setIsDarkMode }) => {
     if (!worker) return null
     return worker.learningPath.courses?.find(course => course.id === selectedCourse)
   }
+
+  // Collapse the learning path view whenever the selected worker or course changes
+  useEffect(() => {
+    setCoursePathExpanded(false)
+  }, [selectedWorker, selectedCourse])
 
   if (loading) {
     return (
@@ -1157,18 +1165,27 @@ const CompanyView = ({ onBack, isDarkMode, setIsDarkMode }) => {
                   <input
                     type="text"
                     value={courseQuery}
-                    onChange={(e) => setCourseQuery(e.target.value)}
+                    onChange={(e) => {
+                      setCourseQuery(e.target.value)
+                      setCourseSearched(false)
+                    }}
                     onKeyPress={(e) => {
                       if (e.key === 'Enter') {
                         setCourseLoading(true)
                         const q = courseQuery.trim()
-                        if (!q) return setCourseResults([])
+                        if (!q) {
+                          setCourseResults([])
+                          setCourseLoading(false)
+                          setCourseSearched(true)
+                          return
+                        }
                         const matchingWorkers = workers.filter(w => {
                           const name = (w.name || '').toLowerCase()
                           return name.includes(q.toLowerCase())
                         })
                         setCourseResults(matchingWorkers)
                         setCourseLoading(false)
+                        setCourseSearched(true)
                       }
                     }}
                     placeholder="Type worker name..."
@@ -1184,19 +1201,24 @@ const CompanyView = ({ onBack, isDarkMode, setIsDarkMode }) => {
                       setCourseLoading(true)
                       try {
                         const q = courseQuery.trim()
-                        if (!q) return setCourseResults([])
+                        if (!q) {
+                          setCourseResults([])
+                          setCourseSearched(true)
+                          return
+                        }
 
                         // Search workers by name only
                         const matchingWorkers = workers.filter(w => {
                           const name = (w.name || '').toLowerCase()
                           return name.includes(q.toLowerCase())
                         })
-                        
+
                         setCourseResults(matchingWorkers)
                       } catch (err) {
                         console.error(err)
                       } finally {
                         setCourseLoading(false)
+                        setCourseSearched(true)
                       }
                     }}
                     className="px-6 py-3 rounded-xl font-semibold transition-all duration-200"
@@ -1213,6 +1235,9 @@ const CompanyView = ({ onBack, isDarkMode, setIsDarkMode }) => {
               </div>
               
               {courseLoading && <p className="text-sm text-center" style={{color: 'var(--text-secondary)'}}>Searching...</p>}
+              {!courseLoading && courseResults.length === 0 && courseQuery.trim() !== '' && courseSearched && (
+                <p className="text-sm text-center" style={{color: 'var(--text-secondary)'}}>No results found.</p>
+              )}
               {courseResults.length > 0 && (
                 <div className="mt-4 space-y-2 max-h-64 overflow-auto">
                   <p className="text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>Found {courseResults.length} result(s):</p>
@@ -1250,12 +1275,20 @@ const CompanyView = ({ onBack, isDarkMode, setIsDarkMode }) => {
                   <input
                     type="text"
                     value={workerQuery}
-                    onChange={(e) => setWorkerQuery(e.target.value)}
+                    onChange={(e) => {
+                      setWorkerQuery(e.target.value)
+                      setWorkerSearched(false)
+                    }}
                     onKeyPress={(e) => {
                       if (e.key === 'Enter') {
-                      setWorkerLoading(true)
+                        setWorkerLoading(true)
                         const q = workerQuery.trim()
-                        if (!q) return setWorkerResults([])
+                        if (!q) {
+                          setWorkerResults([])
+                          setWorkerLoading(false)
+                          setWorkerSearched(true)
+                          return
+                        }
                         const matchingCourses = []
                         workers.forEach(worker => {
                           const courses = worker.learningPath?.courses || []
@@ -1266,7 +1299,8 @@ const CompanyView = ({ onBack, isDarkMode, setIsDarkMode }) => {
                           })
                         })
                         setWorkerResults(matchingCourses)
-                            setWorkerLoading(false)
+                        setWorkerLoading(false)
+                        setWorkerSearched(true)
                       }
                     }}
                     placeholder="Type course name..."
@@ -1281,7 +1315,12 @@ const CompanyView = ({ onBack, isDarkMode, setIsDarkMode }) => {
                     onClick={() => {
                       setWorkerLoading(true)
                       const q = workerQuery.trim()
-                      if (!q) return setWorkerResults([])
+                      if (!q) {
+                        setWorkerResults([])
+                        setWorkerSearched(true)
+                        setWorkerLoading(false)
+                        return
+                      }
                       const matchingCourses = []
                       workers.forEach(worker => {
                         const courses = worker.learningPath?.courses || []
@@ -1292,7 +1331,8 @@ const CompanyView = ({ onBack, isDarkMode, setIsDarkMode }) => {
                         })
                       })
                       setWorkerResults(matchingCourses)
-                        setWorkerLoading(false)
+                      setWorkerLoading(false)
+                      setWorkerSearched(true)
                     }}
                     className="px-6 py-3 rounded-xl font-semibold transition-all duration-200"
                     style={{
@@ -1308,6 +1348,9 @@ const CompanyView = ({ onBack, isDarkMode, setIsDarkMode }) => {
               </div>
               
               {workerLoading && <p className="text-sm text-center" style={{color: 'var(--text-secondary)'}}>Searching...</p>}
+              {!workerLoading && workerResults.length === 0 && workerQuery.trim() !== '' && workerSearched && (
+                <p className="text-sm text-center" style={{color: 'var(--text-secondary)'}}>No results found.</p>
+              )}
               {workerResults.length > 0 && (
                 <div className="mt-4 space-y-2 max-h-64 overflow-auto">
                   <p className="text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>Found {workerResults.length} result(s):</p>
@@ -1463,184 +1506,198 @@ const CompanyView = ({ onBack, isDarkMode, setIsDarkMode }) => {
             </div>
           )}
 
-          {/* Card 3: Course Details */}
-          {selectedWorker && selectedCourse && (
-            <div className="microservice-card" style={{padding: '2rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px'}}>
-                {/* Title and Worker Name */}
-                <div className="mb-6">
-                  <h2 className="text-2xl font-bold mb-2" style={{color: 'var(--text-primary)'}}>
-                    {getSelectedCourse()?.title}
-                  </h2>
-                  <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>
-                    👤 {getSelectedWorker()?.name}
-                  </p>
-                  </div>
-                  
-                {/* Course Details Table */}
-                <div className="space-y-4">
-                  {/* Progress Row */}
-                  <div className="flex items-center justify-between border-b pb-3" style={{borderColor: 'var(--bg-tertiary)'}}>
-                    <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Progress</span>
-                    <span className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>
-                      {getSelectedCourse()?.status === 'Completed' ? '100%' :
-                       getSelectedCourse()?.status === 'In Progress' ? '65%' : '0%'}
-                    </span>
-                    </div>
-                  
-                  {/* Status Row */}
-                  <div className="flex items-center justify-between border-b pb-3" style={{borderColor: 'var(--bg-tertiary)'}}>
-                    <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Status</span>
-                    <span className={`text-sm px-3 py-1 rounded-full flex items-center gap-1 ${
-                      getSelectedCourse()?.status === 'Completed' ? 'bg-green-500 text-white' :
-                      getSelectedCourse()?.status === 'In Progress' ? 'bg-blue-500 text-white' :
-                      'bg-gray-500 text-white'
-                    }`}>
-                      {getSelectedCourse()?.status === 'Completed' ? '✅ Completed' :
-                       getSelectedCourse()?.status === 'In Progress' ? '🔄 In Progress' :
-                       '⏳ Not Started'}
-                    </span>
-                  </div>
-                  
-                  {/* Duration Row */}
-                  <div className="flex items-center justify-between border-b pb-3" style={{borderColor: 'var(--bg-tertiary)'}}>
-                    <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Duration</span>
-                    <span className="text-lg font-semibold" style={{color: 'var(--text-primary)'}}>
-                      {getSelectedCourse()?.duration || '10 hours'}
-                    </span>
-                </div>
-                  
-                  {/* Score Row (if available) */}
-                  {getSelectedCourse()?.score && (
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Score</span>
-                      <span className="text-lg font-semibold" style={{color: 'var(--accent-green)'}}>
-                        {getSelectedCourse()?.score}%
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-          )}
+          {/* Card 3: Course Details moved to right column (now empty here) */}
           </div>
           
-          {/* Right Column: Full Learning Path - Tall Window */}
-          {selectedWorker && selectedCourse && (
+          {/* Right Column: Full Learning Path - compact by default with expand/collapse */}
+          {selectedWorker && (
             <div className="lg:sticky lg:top-8" style={{alignSelf: 'flex-start', maxHeight: 'calc(100vh - 120px)', overflow: 'auto'}}>
-              <div className="microservice-card" style={{
-                padding: '2rem', 
-                background: 'var(--gradient-card)', 
-                border: '1px solid var(--bg-tertiary)', 
-                borderRadius: '16px'
-              }}>
-                {/* Header */}
-                <div className="mb-6">
-                  <h2 className="text-2xl font-bold mb-2" style={{color: 'var(--text-primary)'}}>
-                    📚 {getSelectedCourse()?.title} Learning Path
-                  </h2>
-                  <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>
-                    👤 {getSelectedWorker()?.name} • 12 Stages to Mastery
-                  </p>
-                </div>
-                
-                {/* Learning Path Stages */}
-                <div className="space-y-6">
-                  {/* Stage 1 */}
-                  <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
-                    <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>
-                      Stage 1: The Foundation - Algorithmic and Code Efficiency
-                    </h3>
-                    <div className="space-y-3">
-                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 1: Theoretical Grounding</p>
-                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Big O Notation and Amdahl's Law</p>
-                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Graded Quiz on complexity</p>
-                      </div>
-                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 2: Profiling Fundamentals</p>
-                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Benchmarking and Hotspot Identification</p>
-                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Lab Challenge - Profile Report</p>
-                      </div>
-                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 3: Micro-Optimization</p>
-                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Memory and Concurrency basics</p>
-                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Peer Review</p>
-                      </div>
-                    </div>
+              {/* Top: Course Details panel (shows when a course is selected) */}
+              {selectedCourse ? (
+                <div className="microservice-card" style={{padding: '2rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px', marginBottom: '1rem'}}>
+                  {/* Title and Worker Name */}
+                  <div className="mb-6">
+                    <h2 className="text-2xl font-bold mb-2" style={{color: 'var(--text-primary)'}}>
+                      {getSelectedCourse()?.title}
+                    </h2>
+                    <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>👤 {getSelectedWorker()?.name}</p>
                   </div>
-                  
-                  {/* Stage 2 */}
-                  <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
-                    <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>
-                      Stage 2: The Data Layer - Database and Caching Tuning
-                    </h3>
-                    <div className="space-y-3">
-                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 4: Query Analysis</p>
-                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Execution Plans and Indexing</p>
-                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Analyze 5 SQL queries</p>
-                      </div>
-                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 5: Caching Implementation</p>
-                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Layered Caching (In-memory, CDN)</p>
-                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Live Demo</p>
-                      </div>
-                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 6: Scaling Concepts</p>
-                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Database Architecture</p>
-                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Conceptual Exam</p>
-                      </div>
+
+                  {/* Course Details Table */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between border-b pb-3" style={{borderColor: 'var(--bg-tertiary)'}}>
+                      <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Progress</span>
+                      <span className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>
+                        {getSelectedCourse()?.status === 'Completed' ? '100%' :
+                         getSelectedCourse()?.status === 'In Progress' ? '65%' : '0%'}
+                      </span>
                     </div>
-                  </div>
-                  
-                  {/* Stage 3 */}
-                  <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
-                    <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>
-                      Stage 3: The Environment - Infrastructure and Network
-                    </h3>
-                    <div className="space-y-3">
-                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 7: System Tuning</p>
-                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>OS and I/O optimization</p>
-                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Configuration Audit</p>
-                      </div>
-                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 8: Network Efficiency</p>
-                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Latency Reduction and Protocols</p>
-                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Problem Solving</p>
-                      </div>
-                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 9: Scaling Architecture</p>
-                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Load Balancing and Observability</p>
-                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Integrated Project</p>
-                      </div>
+
+                    <div className="flex items-center justify-between border-b pb-3" style={{borderColor: 'var(--bg-tertiary)'}}>
+                      <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Status</span>
+                      <span className={`text-sm px-3 py-1 rounded-full flex items-center gap-1 ${
+                        getSelectedCourse()?.status === 'Completed' ? 'bg-green-500 text-white' :
+                        getSelectedCourse()?.status === 'In Progress' ? 'bg-blue-500 text-white' :
+                        'bg-gray-500 text-white'
+                      }`}>
+                        {getSelectedCourse()?.status === 'Completed' ? '✅ Completed' :
+                         getSelectedCourse()?.status === 'In Progress' ? '🔄 In Progress' :
+                         '⏳ Not Started'}
+                      </span>
                     </div>
-                  </div>
-                  
-                  {/* Stage 4 */}
-                  <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
-                    <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>
-                      Stage 4: Mastery and Automation
-                    </h3>
-                    <div className="space-y-3">
-                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 10: Performance Testing</p>
-                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Load, Stress, and Soak testing</p>
-                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Testing Report</p>
-                      </div>
-                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
-                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 11: CI/CD Integration</p>
-                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Automating Regression Checks</p>
-                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Practical Task</p>
-                      </div>
-                      <div className="p-3 rounded-lg" style={{background: 'var(--gradient-primary)', border: '1px solid var(--primary-cyan)', borderRadius: '12px'}}>
-                        <p className="font-semibold mb-1" style={{color: 'white'}}>🏆 Step 12: Final Capstone Project</p>
-                        <p className="text-sm" style={{color: 'rgba(255,255,255,0.9)'}}>The Optimization Audit - Full Skill Synthesis</p>
-                        <p className="text-xs mt-1 font-bold" style={{color: 'white'}}>🎯 Mastery Gate: Complete Audit Report</p>
-                      </div>
+
+                    <div className="flex items-center justify-between border-b pb-3" style={{borderColor: 'var(--bg-tertiary)'}}>
+                      <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Duration</span>
+                      <span className="text-lg font-semibold" style={{color: 'var(--text-primary)'}}>
+                        {getSelectedCourse()?.duration || '10 hours'}
+                      </span>
                     </div>
+
+                    {getSelectedCourse()?.score && (
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Score</span>
+                        <span className="text-lg font-semibold" style={{color: 'var(--accent-green)'}}>{getSelectedCourse()?.score}%</span>
+                      </div>
+                    )}
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="microservice-card" style={{padding: '1.5rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '12px', marginBottom: '1rem'}}>
+                  <p style={{color: 'var(--text-secondary)'}}>Select a course to view details.</p>
+                </div>
+              )}
+
+              {/* Below: Learning Path (compact/expandable as before) */}
+              {selectedWorker && selectedCourse && (
+                <>
+                  {!coursePathExpanded ? (
+                    <div className="microservice-card" style={{padding: '1.25rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '12px'}}>
+                      <div className="mb-4">
+                        <h3 className="text-lg font-bold" style={{color: 'var(--text-primary)'}}>📚 {getSelectedCourse()?.title} — Learning Path</h3>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>👤 {getSelectedWorker()?.name} • Summary view</p>
+                      </div>
+
+                      <div style={{display: 'grid', gap: '0.5rem'}}>
+                        <div style={{padding: '0.75rem', background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)', borderRadius: '8px'}}>
+                          <p className="font-medium" style={{color: 'var(--text-primary)', marginBottom: '0.25rem'}}>Overview</p>
+                          <p className="text-sm" style={{color: 'var(--text-secondary)'}}>A condensed summary of the learning path. Expand to view all stages and detailed steps.</p>
+                        </div>
+
+                        <div style={{padding: '0.75rem', background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)', borderRadius: '8px'}}>
+                          <p className="font-semibold" style={{color: 'var(--text-primary)', marginBottom: '0.25rem'}}>Stage preview</p>
+                          <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Stage 1: The Foundation — core concepts and quick wins</p>
+                        </div>
+
+                        <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: '0.5rem'}}>
+                          <button onClick={() => setCoursePathExpanded(true)} className="px-4 py-2 rounded-lg font-semibold" style={{background: 'var(--gradient-primary)', color: 'white', border: 'none', cursor: 'pointer'}}>View learning path</button>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="microservice-card" style={{padding: '2rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px'}}>
+                      <div className="mb-6" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem'}}>
+                        <div>
+                          <h2 className="text-2xl font-bold mb-2" style={{color: 'var(--text-primary)'}}>📚 {getSelectedCourse()?.title} Learning Path</h2>
+                          <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>👤 {getSelectedWorker()?.name} • Full path view</p>
+                        </div>
+                        <div style={{marginLeft: 'auto'}}>
+                          <button onClick={() => setCoursePathExpanded(false)} className="px-3 py-2 rounded-md font-medium" style={{background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--bg-tertiary)'}}>Hide learning path</button>
+                        </div>
+                      </div>
+
+                      <div className="space-y-6">
+                        {/* Stage 1 */}
+                        <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
+                          <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>Stage 1: The Foundation - Algorithmic and Code Efficiency</h3>
+                          <div className="space-y-3">
+                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 1: Theoretical Grounding</p>
+                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Big O Notation and Amdahl's Law</p>
+                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Graded Quiz on complexity</p>
+                            </div>
+                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 2: Profiling Fundamentals</p>
+                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Benchmarking and Hotspot Identification</p>
+                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Lab Challenge - Profile Report</p>
+                            </div>
+                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 3: Micro-Optimization</p>
+                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Memory and Concurrency basics</p>
+                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Peer Review</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Stage 2 */}
+                        <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
+                          <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>Stage 2: The Data Layer - Database and Caching Tuning</h3>
+                          <div className="space-y-3">
+                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 4: Query Analysis</p>
+                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Execution Plans and Indexing</p>
+                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Analyze 5 SQL queries</p>
+                            </div>
+                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 5: Caching Implementation</p>
+                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Layered Caching (In-memory, CDN)</p>
+                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Live Demo</p>
+                            </div>
+                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 6: Scaling Concepts</p>
+                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Database Architecture</p>
+                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Conceptual Exam</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Stage 3 */}
+                        <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
+                          <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>Stage 3: The Environment - Infrastructure and Network</h3>
+                          <div className="space-y-3">
+                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 7: System Tuning</p>
+                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>OS and I/O optimization</p>
+                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Configuration Audit</p>
+                            </div>
+                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 8: Network Efficiency</p>
+                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Latency Reduction and Protocols</p>
+                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Problem Solving</p>
+                            </div>
+                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 9: Scaling Architecture</p>
+                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Load Balancing and Observability</p>
+                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Integrated Project</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Stage 4 */}
+                        <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
+                          <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>Stage 4: Mastery and Automation</h3>
+                          <div className="space-y-3">
+                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 10: Performance Testing</p>
+                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Load, Stress, and Soak testing</p>
+                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Testing Report</p>
+                            </div>
+                            <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                              <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 11: CI/CD Integration</p>
+                              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Automating Regression Checks</p>
+                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Practical Task</p>
+                            </div>
+                            <div className="p-3 rounded-lg" style={{background: 'var(--gradient-primary)', border: '1px solid var(--primary-cyan)', borderRadius: '12px'}}>
+                              <p className="font-semibold mb-1" style={{color: 'white'}}>🏆 Step 12: Final Capstone Project</p>
+                              <p className="text-sm" style={{color: 'rgba(255,255,255,0.9)'}}>The Optimization Audit - Full Skill Synthesis</p>
+                              <p className="text-xs mt-1 font-bold" style={{color: 'white'}}>🎯 Mastery Gate: Complete Audit Report</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           )}
         </div>
