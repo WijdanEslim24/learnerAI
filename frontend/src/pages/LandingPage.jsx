@@ -70,15 +70,15 @@ const LandingPage = () => {
   }
 
   if (selectedView === 'learner') {
-    return <LearnerView onBack={() => setSelectedView(null)} />
+    return <LearnerView onBack={() => setSelectedView(null)} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
   }
 
   if (selectedView === 'company') {
-    return <CompanyView onBack={() => setSelectedView(null)} />
+    return <CompanyView onBack={() => setSelectedView(null)} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
   }
 
   return (
-    <div className="day-mode la-theme" style={{minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden'}}>
+    <div className={isDarkMode ? 'night-mode la-theme' : 'day-mode la-theme'} style={{minHeight: '100vh', display: 'flex', alignItems: 'stretch', position: 'relative', overflow: 'hidden'}}>
       {/* Theme Toggle Button */}
       <button 
         className="theme-toggle" 
@@ -118,9 +118,9 @@ const LandingPage = () => {
         ))}
       </div>
       
-      <div className="text-center relative z-10 w-full px-6" style={{maxWidth: '100%', padding: '0 1rem'}}>
+      <div className="relative z-10 w-full" style={{flex: '1', display: 'flex', flexDirection: 'column', alignItems: 'stretch'}}>
         {/* Main heading with Dark Emerald styling */}
-        <div className="mb-20">
+        <div className="mb-20 text-center" style={{padding: '2rem 3rem 0'}}>
           <h1 className="text-7xl font-black text-white mb-8 bg-gradient-to-r from-green-400 via-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent animate-pulse">
             LearnerAI
           </h1>
@@ -130,12 +130,15 @@ const LandingPage = () => {
         </div>
         
         {/* Design System Buttons */}
-        <div className="user-cards" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', justifyContent: 'center', maxWidth: '100%', margin: '0 auto', width: '100%', padding: '0 2rem'}}>
-          <div className="user-card" onClick={() => handleViewSelection('learner')}>
+        <div className="user-cards" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '3rem', width: '100%', padding: '0 3rem 3rem'}}>
+          <div className="user-card" onClick={() => handleViewSelection('learner')} style={{
+            background: isDarkMode ? 'rgba(30, 41, 59, 0.8)' : 'rgba(203, 213, 225, 0.5)',
+            border: isDarkMode ? '1px solid rgba(6, 182, 212, 0.2)' : '1px solid rgba(100, 116, 139, 0.2)'
+          }}>
             <div className="user-icon">👨‍🎓</div>
-            <h3 className="user-title">Learner Path</h3>
-            <p className="user-description">Personalized AI learning journey</p>
-            <ul className="user-features" style={{listStyle: 'none', textAlign: 'left'}}>
+            <h3 className="user-title" style={{color: isDarkMode ? '#f1f5f9' : '#1e293b'}}>Learner Path</h3>
+            <p className="user-description" style={{color: isDarkMode ? '#cbd5e1' : '#475569'}}>Personalized AI learning journey</p>
+            <ul className="user-features" style={{listStyle: 'none', textAlign: 'left', color: isDarkMode ? '#94a3b8' : '#64748b'}}>
               <li>AI-powered recommendations</li>
               <li>Personalized learning paths</li>
               <li>Progress tracking</li>
@@ -143,11 +146,14 @@ const LandingPage = () => {
             </ul>
           </div>
           
-          <div className="user-card" onClick={() => handleViewSelection('company')}>
+          <div className="user-card" onClick={() => handleViewSelection('company')} style={{
+            background: isDarkMode ? 'rgba(30, 41, 59, 0.8)' : 'rgba(203, 213, 225, 0.5)',
+            border: isDarkMode ? '1px solid rgba(6, 182, 212, 0.2)' : '1px solid rgba(100, 116, 139, 0.2)'
+          }}>
             <div className="user-icon">🏢</div>
-            <h3 className="user-title">Company Workers</h3>
-            <p className="user-description">Team learning management</p>
-            <ul className="user-features" style={{listStyle: 'none', textAlign: 'left'}}>
+            <h3 className="user-title" style={{color: isDarkMode ? '#f1f5f9' : '#1e293b'}}>Company Workers</h3>
+            <p className="user-description" style={{color: isDarkMode ? '#cbd5e1' : '#475569'}}>Team learning management</p>
+            <ul className="user-features" style={{listStyle: 'none', textAlign: 'left', color: isDarkMode ? '#94a3b8' : '#64748b'}}>
               <li>Team analytics</li>
               <li>Course management</li>
               <li>Progress reports</li>
@@ -157,19 +163,34 @@ const LandingPage = () => {
         </div>
         
         {/* Vibrant feature indicators */}
-        <div className="mt-20 text-center">
-          <div className="inline-flex items-center space-x-12 text-white/80">
-            <div className="flex items-center space-x-3 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 backdrop-blur-sm rounded-full px-6 py-3 border border-emerald-400/30">
+        <div className="mt-20 text-center" style={{padding: '0 3rem 3rem'}}>
+          <div className="inline-flex items-center space-x-12" style={{color: isDarkMode ? '#e2e8f0' : '#334155'}}>
+            <div className="flex items-center space-x-3 backdrop-blur-sm rounded-full px-6 py-3 border" style={{
+              background: isDarkMode 
+                ? 'linear-gradient(to right, rgba(6, 182, 212, 0.3), rgba(20, 184, 166, 0.3))'
+                : 'linear-gradient(to right, rgba(6, 182, 212, 0.2), rgba(20, 184, 166, 0.2))',
+              borderColor: isDarkMode ? 'rgba(6, 182, 212, 0.4)' : 'rgba(6, 182, 212, 0.3)'
+            }}>
               <div className="w-3 h-3 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full animate-pulse"></div>
-              <span className="text-lg font-semibold">🤖 AI-Powered</span>
+              <span className="text-lg font-semibold" style={{color: isDarkMode ? '#f1f5f9' : '#1e293b'}}>🤖 AI-Powered</span>
             </div>
-            <div className="flex items-center space-x-3 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-sm rounded-full px-6 py-3 border border-blue-400/30">
+            <div className="flex items-center space-x-3 backdrop-blur-sm rounded-full px-6 py-3 border" style={{
+              background: isDarkMode 
+                ? 'linear-gradient(to right, rgba(59, 130, 246, 0.3), rgba(6, 182, 212, 0.3))'
+                : 'linear-gradient(to right, rgba(59, 130, 246, 0.2), rgba(6, 182, 212, 0.2))',
+              borderColor: isDarkMode ? 'rgba(59, 130, 246, 0.4)' : 'rgba(59, 130, 246, 0.3)'
+            }}>
               <div className="w-3 h-3 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-              <span className="text-lg font-semibold">✨ Personalized</span>
+              <span className="text-lg font-semibold" style={{color: isDarkMode ? '#f1f5f9' : '#1e293b'}}>✨ Personalized</span>
             </div>
-            <div className="flex items-center space-x-3 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 backdrop-blur-sm rounded-full px-6 py-3 border border-emerald-400/30">
+            <div className="flex items-center space-x-3 backdrop-blur-sm rounded-full px-6 py-3 border" style={{
+              background: isDarkMode 
+                ? 'linear-gradient(to right, rgba(6, 182, 212, 0.3), rgba(20, 184, 166, 0.3))'
+                : 'linear-gradient(to right, rgba(6, 182, 212, 0.2), rgba(20, 184, 166, 0.2))',
+              borderColor: isDarkMode ? 'rgba(6, 182, 212, 0.4)' : 'rgba(6, 182, 212, 0.3)'
+            }}>
               <div className="w-3 h-3 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-              <span className="text-lg font-semibold">📊 Real-time Analytics</span>
+              <span className="text-lg font-semibold" style={{color: isDarkMode ? '#f1f5f9' : '#1e293b'}}>📊 Real-time Analytics</span>
             </div>
           </div>
         </div>
@@ -179,11 +200,10 @@ const LandingPage = () => {
 }
 
 // Learner View - Shows AI-generated learning path topics
-const LearnerView = ({ onBack }) => {
+const LearnerView = ({ onBack, isDarkMode, setIsDarkMode }) => {
   const [learningPath, setLearningPath] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selectedCourseId, setSelectedCourseId] = useState('')
-  const [isDarkMode, setIsDarkMode] = useState(false)
 
   // Theme toggle functionality for LearnerView
   useEffect(() => {
@@ -536,7 +556,7 @@ const LearnerView = ({ onBack }) => {
                   className="w-full outline-none"
                   style={{ 
                     color: 'var(--text-primary)', 
-                    background: 'transparent',
+                    background: 'var(--bg-card)',
                     border: 'none',
                     fontSize: '1.1rem',
                     fontWeight: '600',
@@ -864,7 +884,9 @@ const LearnerView = ({ onBack }) => {
 }
 
 // Company View - Shows workers with dropdown choice lists
-const CompanyView = ({ onBack }) => {
+const CompanyView = ({ onBack, isDarkMode, setIsDarkMode }) => {
+  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000'
+  
   const [workers, setWorkers] = useState([])
   const [loading, setLoading] = useState(true)
   const [selectedWorker, setSelectedWorker] = useState('')
@@ -1000,400 +1022,475 @@ const CompanyView = ({ onBack }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-900 via-teal-800 to-cyan-900 p-8 la-theme">
+    <div className={isDarkMode ? 'night-mode la-theme' : 'day-mode la-theme'} style={{minHeight: '100vh', display: 'flex', alignItems: 'stretch', position: 'relative', overflow: 'hidden'}}>
+      {/* Theme Toggle Button */}
+      <button 
+        className="theme-toggle" 
+        onClick={() => setIsDarkMode(!isDarkMode)}
+        style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          zIndex: 1000,
+          background: 'var(--bg-tertiary)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: '50%',
+          width: '50px',
+          height: '50px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          color: 'var(--text-primary)',
+          fontSize: '1.5rem'
+        }}
+        aria-label="Toggle theme"
+      >
+        {isDarkMode ? '☀️' : '🌙'}
+      </button>
+
+      {/* Design System Background Animation */}
+      <div className="bg-animation"></div>
+      <div className="particles">
+        {[...Array(15)].map((_, i) => (
+          <div key={i} className="particle" style={{
+            left: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 20}s`,
+            animationDuration: `${15 + Math.random() * 10}s`
+          }}></div>
+        ))}
+      </div>
+
+      <div className="w-full p-8 relative z-10">
       {/* Header with Back Button */}
       <div className="flex items-center mb-8">
         <button
           onClick={onBack}
-          className="mr-4 p-4 bg-gradient-to-r from-emerald-600/80 to-teal-600/80 hover:from-emerald-500 hover:to-teal-500 rounded-2xl text-white transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/25 border border-emerald-400/30 backdrop-blur-sm"
+            className="btn btn-primary mr-4"
+            style={{
+              background: 'var(--gradient-primary)',
+              color: 'white',
+              border: 'none',
+              padding: '0.75rem 1.5rem',
+              borderRadius: '12px',
+              cursor: 'pointer',
+              fontSize: '1.125rem',
+              fontWeight: '600',
+              boxShadow: '0 4px 12px rgba(6, 95, 70, 0.3)',
+              transition: 'all 0.3s ease'
+            }}
         >
           <div className="flex items-center space-x-3">
             <span className="text-xl">←</span>
             <span className="font-bold text-lg">Back</span>
           </div>
         </button>
-        <h1 className="text-4xl font-black text-white bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Company Workers</h1>
+          <h1 className="text-4xl font-black" style={{
+            background: 'var(--gradient-primary)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}>Company Workers</h1>
       </div>
 
-      <div className="max-w-6xl mx-auto">
-        {/* Top Right Search Buttons */}
-        <div className="flex justify-end mb-8 space-x-4">
-          <div className="relative">
+        <div className="w-full max-w-full" style={{padding: '0 3rem'}}>
+        
+        {/* Top Search Interface - Moved to Top */}
+        <div className="mb-8">
+          <div className="flex justify-center gap-4 mb-4">
             <button
-              onClick={() => { setShowCourseSearch(prev => !prev); setShowWorkerSearch(false) }}
-              className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25"
+              onClick={() => { setShowCourseSearch(!showCourseSearch); setShowWorkerSearch(false) }}
+              className="px-6 py-3 rounded-xl font-semibold transition-all duration-200"
+              style={{
+                background: showCourseSearch ? 'var(--gradient-primary)' : 'var(--bg-secondary)',
+                color: showCourseSearch ? 'white' : 'var(--text-primary)',
+                border: '1px solid var(--bg-tertiary)',
+                cursor: 'pointer',
+                boxShadow: showCourseSearch ? '0 4px 12px rgba(6, 95, 70, 0.3)' : 'none'
+              }}
+              onMouseEnter={(e) => {
+                if (!showCourseSearch) {
+                  e.target.style.background = 'var(--bg-tertiary)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!showCourseSearch) {
+                  e.target.style.background = 'var(--bg-secondary)';
+                }
+              }}
             >
-              search course
+              🔍 Search Worker
             </button>
+            
+            <button
+              onClick={() => { setShowWorkerSearch(!showWorkerSearch); setShowCourseSearch(false) }}
+              className="px-6 py-3 rounded-xl font-semibold transition-all duration-200"
+              style={{
+                background: showWorkerSearch ? 'var(--gradient-primary)' : 'var(--bg-secondary)',
+                color: showWorkerSearch ? 'white' : 'var(--text-primary)',
+                border: '1px solid var(--bg-tertiary)',
+                cursor: 'pointer',
+                boxShadow: showWorkerSearch ? '0 4px 12px rgba(6, 95, 70, 0.3)' : 'none'
+              }}
+              onMouseEnter={(e) => {
+                if (!showWorkerSearch) {
+                  e.target.style.background = 'var(--bg-tertiary)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!showWorkerSearch) {
+                  e.target.style.background = 'var(--bg-secondary)';
+                }
+              }}
+            >
+              📚 Search Course
+            </button>
+          </div>
+          
+          {/* Search Interface */}
             {showCourseSearch && (
-              <div className="absolute right-0 mt-2 w-96 bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20 z-20">
-                <div className="flex">
+            <div className="max-w-2xl mx-auto microservice-card" style={{padding: '1.5rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px'}}>
+              <div className="mb-4">
+                <p className="font-medium mb-2" style={{color: 'var(--text-primary)'}}>Search by Name:</p>
+                <div className="flex gap-2">
                   <input
+                    type="text"
                     value={courseQuery}
                     onChange={(e) => setCourseQuery(e.target.value)}
-                    placeholder="Search courses by title..."
-                    className="flex-1 p-2 rounded-l-md bg-slate-800 text-white border border-white/10"
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        setCourseLoading(true)
+                        const q = courseQuery.trim()
+                        if (!q) return setCourseResults([])
+                        const matchingWorkers = workers.filter(w => {
+                          const name = (w.name || '').toLowerCase()
+                          return name.includes(q.toLowerCase())
+                        })
+                        setCourseResults(matchingWorkers)
+                        setCourseLoading(false)
+                      }
+                    }}
+                    placeholder="Type worker name..."
+                    className="flex-1 p-3 rounded-xl border"
+                    style={{
+                      color: 'var(--text-primary)',
+                      background: 'var(--bg-secondary)',
+                      borderColor: 'var(--bg-tertiary)'
+                    }}
                   />
                   <button
                     onClick={async () => {
                       setCourseLoading(true)
-                      setCourseError(null)
                       try {
                         const q = courseQuery.trim()
                         if (!q) return setCourseResults([])
 
-                        // Try remote API first
-                        try {
-                          const res = await fetch(`${API_BASE}/api/learning-paths/courses/search?q=${encodeURIComponent(q)}`)
-                          if (res.ok) {
-                            const data = await res.json()
-                            const results = Array.isArray(data) ? data : (data.results || [])
-                            if (results && results.length > 0) {
-                              setCourseResults(results)
-                              setCourseLoading(false)
-                              return
-                            }
-                          }
-                        } catch (apiErr) {
-                          // swallow and fall back to local mock
-                          console.warn('Course API search failed, falling back to local mock:', apiErr.message || apiErr)
-                        }
-
-                        // Fallback: search the static mock file in public/mock
-                        try {
-                          const r = await fetch('/mock/company-mock.json')
-                          if (r.ok) {
-                            const company = await r.json()
-                            const out = []
-                            ;(company.workers || []).forEach(w => {
-                              ;(w.courses || []).forEach(c => {
-                                const title = (c.name || '').toLowerCase()
-                                if (title.includes(q.toLowerCase())) {
-                                  out.push({
-                                    courseId: c.id,
-                                    id: c.id,
-                                    title: c.name,
-                                    learningPathTitle: (c.learningPaths && c.learningPaths[0] && c.learningPaths[0].id) || '',
-                                    learningPathName: (c.learningPaths && c.learningPaths[0] && c.learningPaths[0].id) || '',
-                                    workerName: w.workerName,
-                                    workerId: w.workerId
-                                  })
-                                }
-                              })
-                            })
-                            setCourseResults(out)
-                            setCourseLoading(false)
-                            return
-                          }
-                        } catch (mockErr) {
-                          console.error('Local course fallback failed:', mockErr)
-                        }
-
-                        // nothing found
-                        setCourseResults([])
+                        // Search workers by name only
+                        const matchingWorkers = workers.filter(w => {
+                          const name = (w.name || '').toLowerCase()
+                          return name.includes(q.toLowerCase())
+                        })
+                        
+                        setCourseResults(matchingWorkers)
                       } catch (err) {
                         console.error(err)
-                        setCourseError(err.message || 'Error')
                       } finally {
                         setCourseLoading(false)
                       }
                     }}
-                    className="px-3 bg-emerald-500 rounded-r-md text-white font-semibold"
+                    className="px-6 py-3 rounded-xl font-semibold transition-all duration-200"
+                    style={{
+                      background: 'var(--gradient-primary)',
+                      color: 'white',
+                      border: 'none',
+                      cursor: 'pointer'
+                    }}
                   >
                     Go
                   </button>
                 </div>
-                <div className="mt-3 max-h-48 overflow-auto">
-                  {courseLoading && <div className="text-sm text-white/80">Searching...</div>}
-                  {courseError && <div className="text-sm text-red-300">{courseError}</div>}
-                  {!courseLoading && (
-                    <div className="text-sm text-white/60 mb-2">Results: {courseResults.length}</div>
-                  )}
-                  {!courseLoading && courseResults.length === 0 && <div className="text-sm text-white/60">No results</div>}
-                  {courseResults.map((c, idx) => (
-                    <React.Fragment key={c.courseId || c.id || JSON.stringify(c)}>
-                      <div
-                        className={`${idx > 0 ? 'mt-2 pt-2' : ''} p-2 hover:bg-white/5 rounded-md text-white cursor-pointer transition-colors duration-150`}
-                        onClick={async () => {
-                          console.log('clicked course result', c)
-                          // Ensure workers are loaded before selecting
-                          if (c.workerId) {
-                            try {
-                              if (!workers || workers.length === 0) {
-                                console.log('workers empty, loading workers before selecting')
-                                await loadWorkers()
-                              }
-                            } catch (e) {
-                              console.error('failed to load workers before selecting', e)
-                            }
-
-                            setSelectedWorker(c.workerId)
-                            // Apply course selection immediately (no artificial delay)
-                            setSelectedCourse(c.courseId || c.id)
-                            console.log('selection applied:', { selectedWorker: c.workerId, selectedCourse: c.courseId || c.id })
-                          }
+              </div>
+              
+              {courseLoading && <p className="text-sm text-center" style={{color: 'var(--text-secondary)'}}>Searching...</p>}
+              {courseResults.length > 0 && (
+                <div className="mt-4 space-y-2 max-h-64 overflow-auto">
+                  <p className="text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>Found {courseResults.length} result(s):</p>
+                  {courseResults.map((worker) => (
+                    <div
+                      key={worker.id}
+                      onClick={() => {
+                        handleWorkerChange(worker.id)
+                        setCourseQuery('')
+                        setCourseResults([])
                           setShowCourseSearch(false)
                         }}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center mr-3 text-sm font-semibold text-white">
-                              {getInitials(c.workerName)}
+                      className="p-3 rounded-lg cursor-pointer transition-all duration-200 hover:transform hover:scale-105"
+                      style={{
+                        background: 'var(--bg-secondary)',
+                        border: '1px solid var(--bg-tertiary)'
+                      }}
+                      onMouseEnter={(e) => e.target.style.background = 'var(--bg-tertiary)'}
+                      onMouseLeave={(e) => e.target.style.background = 'var(--bg-secondary)'}
+                    >
+                      <p className="font-semibold" style={{color: 'var(--text-primary)'}}>{worker.name}</p>
                             </div>
-                            <div>
-                              <div className="font-semibold">{c.title}</div>
-                              <div className="text-sm text-white/60">{c.learningPathTitle || c.learningPathName}</div>
-                            </div>
-                          </div>
-                          <div className="text-sm text-white/60 ml-4">{c.workerName}</div>
-                        </div>
-                      </div>
-
-                      {/* dashed separator for cleaner look */}
-                      {idx < courseResults.length - 1 && (
-                        <div className="text-sm text-white/40 my-2 select-none">.......................</div>
-                      )}
-                    </React.Fragment>
                   ))}
-                </div>
               </div>
             )}
           </div>
-
-          <div className="relative">
-            <button
-              onClick={() => { setShowWorkerSearch(prev => !prev); setShowCourseSearch(false) }}
-              className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25"
-            >
-              search worker
-            </button>
+          )}
+          
+          {/* Search Course Interface */}
             {showWorkerSearch && (
-              <div className="absolute right-0 mt-2 w-80 bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20 z-20">
-                <div className="flex">
+            <div className="max-w-2xl mx-auto microservice-card" style={{padding: '1.5rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px'}}>
+              <div className="mb-4">
+                <p className="font-medium mb-2" style={{color: 'var(--text-primary)'}}>Search by Course Name:</p>
+                <div className="flex gap-2">
                   <input
+                    type="text"
                     value={workerQuery}
                     onChange={(e) => setWorkerQuery(e.target.value)}
-                    placeholder="Search workers by name or email..."
-                    className="flex-1 p-2 rounded-l-md bg-slate-800 text-white border border-white/10"
-                  />
-                  <button
-                    onClick={async () => {
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
                       setWorkerLoading(true)
-                      setWorkerError(null)
-                      try {
                         const q = workerQuery.trim()
                         if (!q) return setWorkerResults([])
-                        // Try API first
-                        try {
-                          const res = await fetch(`${API_BASE}/api/workers/search?q=${encodeURIComponent(q)}`)
-                          if (res.ok) {
-                            const data = await res.json()
-                            const results = data.workers || data || []
-                            if (results && results.length > 0) {
-                              setWorkerResults(results)
-                              setWorkerLoading(false)
-                              return
+                        const matchingCourses = []
+                        workers.forEach(worker => {
+                          const courses = worker.learningPath?.courses || []
+                          courses.forEach(course => {
+                            if ((course.title || '').toLowerCase().includes(q.toLowerCase())) {
+                              matchingCourses.push({worker, course})
                             }
-                          }
-                        } catch (apiErr) {
-                          console.warn('Worker API search failed, falling back to local mock:', apiErr.message || apiErr)
-                        }
-
-                        // Fallback: local mock
-                        try {
-                          const r = await fetch('/mock/company-mock.json')
-                          if (r.ok) {
-                            const company = await r.json()
-                            const out = (company.workers || []).filter(w => {
-                              const name = (w.workerName || '').toLowerCase()
-                              const email = (w.email || `${(w.workerName || '').toLowerCase().replace(/\s+/g, '.')}@example.com`).toLowerCase()
-                              return name.includes(q.toLowerCase()) || email.includes(q.toLowerCase())
-                            }).map(w => ({
-                              id: w.workerId,
-                              name: w.workerName,
-                              email: w.email || `${(w.workerName || '').toLowerCase().replace(/\s+/g, '.')}@example.com`,
-                              learningPath: {
-                                id: `lp-${w.workerId}`,
-                                courses: (w.courses || []).map(c => ({ id: c.id, title: c.name }))
-                              }
-                            }))
-                            setWorkerResults(out)
+                          })
+                        })
+                        setWorkerResults(matchingCourses)
                             setWorkerLoading(false)
-                            return
-                          }
-                        } catch (mockErr) {
-                          console.error('Local worker fallback failed:', mockErr)
-                        }
-
-                        setWorkerResults([])
-                      } catch (err) {
-                        console.error(err)
-                        setWorkerError(err.message || 'Error')
-                      } finally {
-                        setWorkerLoading(false)
                       }
                     }}
-                    className="px-3 bg-emerald-500 rounded-r-md text-white font-semibold"
+                    placeholder="Type course name..."
+                    className="flex-1 p-3 rounded-xl border"
+                    style={{
+                      color: 'var(--text-primary)',
+                      background: 'var(--bg-secondary)',
+                      borderColor: 'var(--bg-tertiary)'
+                    }}
+                  />
+                  <button
+                    onClick={() => {
+                      setWorkerLoading(true)
+                      const q = workerQuery.trim()
+                      if (!q) return setWorkerResults([])
+                      const matchingCourses = []
+                      workers.forEach(worker => {
+                        const courses = worker.learningPath?.courses || []
+                        courses.forEach(course => {
+                          if ((course.title || '').toLowerCase().includes(q.toLowerCase())) {
+                            matchingCourses.push({worker, course})
+                          }
+                        })
+                      })
+                      setWorkerResults(matchingCourses)
+                        setWorkerLoading(false)
+                    }}
+                    className="px-6 py-3 rounded-xl font-semibold transition-all duration-200"
+                    style={{
+                      background: 'var(--gradient-primary)',
+                      color: 'white',
+                      border: 'none',
+                      cursor: 'pointer'
+                    }}
                   >
                     Go
                   </button>
                 </div>
-                <div className="mt-3 max-h-48 overflow-auto">
-                  {workerLoading && <div className="text-sm text-white/80">Searching...</div>}
-                  {workerError && <div className="text-sm text-red-300">{workerError}</div>}
-                  {!workerLoading && workerResults.length === 0 && <div className="text-sm text-white/60">No results</div>}
-                  {workerResults.map((w, idx) => (
-                    <React.Fragment key={w.id || w.workerId || JSON.stringify(w)}>
-                      <div className="p-2 hover:bg-white/5 rounded-md text-white cursor-pointer transition-colors duration-150" onClick={() => {
-                        // Normalize the clicked worker into the legacy shape the UI expects
-                        const normalized = {
-                          id: w.id || w.workerId,
-                          name: w.name || w.workerName,
-                          email: w.email || (w.email === undefined ? `${(w.name || w.workerName || '').toLowerCase().replace(/\s+/g, '.')}@example.com` : w.email),
-                          learningPath: w.learningPath || {
-                            id: (w.learningPath && w.learningPath.id) || `lp-${w.id || w.workerId}`,
-                            courses: (w.learningPath && w.learningPath.courses) || (w.courses || []).map(c => ({ id: c.id, title: c.title || c.name }))
-                          }
-                        }
-
-                        // Ensure the workers list contains this worker so UI helpers (getSelectedWorker) work
-                        // If worker exists, merge/replace it so learningPath/courses from the search result are applied
-                        setWorkers(prev => {
-                          if (!prev || !Array.isArray(prev)) return [normalized]
-                          const exists = prev.find(x => x.id === normalized.id)
-                          if (!exists) return [...prev, normalized]
-                          return prev.map(x => x.id === normalized.id ? { ...x, ...normalized } : x)
-                        })
-
-                        setSelectedWorker(normalized.id)
-                        setSelectedCourse('')
+              </div>
+              
+              {workerLoading && <p className="text-sm text-center" style={{color: 'var(--text-secondary)'}}>Searching...</p>}
+              {workerResults.length > 0 && (
+                <div className="mt-4 space-y-2 max-h-64 overflow-auto">
+                  <p className="text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>Found {workerResults.length} result(s):</p>
+                  {workerResults.map((result, idx) => (
+                    <div
+                      key={idx}
+                      onClick={() => {
+                        handleWorkerChange(result.worker.id)
+                        handleCourseChange(result.course.id)
+                        setWorkerQuery('')
+                        setWorkerResults([])
                         setShowWorkerSearch(false)
-                      }}>
-                        <div className="flex items-center">
-                          <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center mr-3 text-sm font-semibold text-white">
-                            {getInitials(w.name || w.workerName)}
+                      }}
+                      className="p-3 rounded-lg cursor-pointer transition-all duration-200"
+                      style={{
+                        background: 'var(--bg-secondary)',
+                        border: '1px solid var(--bg-tertiary)'
+                      }}
+                      onMouseEnter={(e) => e.target.style.background = 'var(--bg-tertiary)'}
+                      onMouseLeave={(e) => e.target.style.background = 'var(--bg-secondary)'}
+                    >
+                      <p className="font-semibold" style={{color: 'var(--text-primary)'}}>{result.course.title}</p>
+                      <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Worker: {result.worker.name}</p>
                           </div>
-                          <div>
-                            <div className="font-semibold">{w.name || w.workerName}</div>
-                            <div className="text-sm text-white/60">{w.email || `${(w.name || w.workerName || '').toLowerCase().replace(/\s+/g, '.')}@example.com`}</div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* dashed separator for worker results */}
-                      {idx < workerResults.length - 1 && (
-                        <div className="text-sm text-white/40 my-2 select-none">.......................</div>
-                      )}
-                    </React.Fragment>
                   ))}
-                </div>
+                          </div>
+              )}
               </div>
             )}
-          </div>
         </div>
 
-        {/* Main Content Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left Side - Workers Section */}
-          <div className="bg-gradient-to-r from-emerald-800/40 to-teal-800/40 backdrop-blur-sm rounded-2xl p-8 border border-emerald-400/20 shadow-2xl la-card">
-            <h2 className="text-xl font-bold text-white mb-6">Workers:</h2>
-            <select
-              value={selectedWorker}
-              onChange={(e) => handleWorkerChange(e.target.value)}
-              className="w-full p-4 pr-10 bg-gradient-to-r from-emerald-700/60 to-teal-700/60 backdrop-blur-sm text-white rounded-xl border border-emerald-400/30 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 text-lg font-medium"
-              style={{ color: '#ffffff', backgroundColor: '#195856ff' }}
-            >
-              <option value="" style={{ color: '#ffffff', backgroundColor: '#195856ff' }}>select worker</option>
-              {workers?.map((worker) => (
-                <option key={worker.id} value={worker.id}>
-                  {worker.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Right Side - Courses Section */}
-          <div className="bg-gradient-to-r from-emerald-800/40 to-teal-800/40 backdrop-blur-sm rounded-2xl p-8 border border-emerald-400/20 shadow-2xl la-card">
-            <h2 className="text-xl font-bold text-white mb-6">Courses:</h2>
-            <select
-              value={selectedCourse}
-              onChange={(e) => handleCourseChange(e.target.value)}
-              className="w-full p-4 bg-gradient-to-r from-emerald-700/60 to-teal-700/60 backdrop-blur-sm text-white rounded-xl border border-emerald-400/30 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 text-lg font-medium"
-              style={{ color: '#ffffff', backgroundColor: '#195856ff' }}
-            >
-                <option value="" style={{ color: '#ffffff', backgroundColor: '#195856ff' }}>Select course</option>
-              {getSelectedWorker()?.learningPath.courses?.map((course) => (
-                <option key={course.id} value={course.id}>
-                  {course.title}
-                </option>
-              ))}
-            </select>
-          </div>
+        {/* Simplified Instructions */}
+        <div className="mb-8 text-center">
+          <p className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>
+            👥 Choose a Worker
+          </p>
+          <p className="text-sm mt-2" style={{color: 'var(--text-secondary)'}}>
+            Select a worker to view their courses and progress
+          </p>
         </div>
 
-        {/* Course Details - Only show if both worker and course are selected */}
-        {selectedWorker && selectedCourse && (
-          <div className="bg-gradient-to-r from-emerald-800/40 to-teal-800/40 backdrop-blur-sm rounded-2xl p-8 border border-emerald-400/20 shadow-2xl">
-            <h2 className="text-xl font-bold text-white mb-6">
-              {getSelectedWorker()?.name} - {getSelectedCourse()?.title}
-            </h2>
-            
-            <div className="space-y-4">
-              <div className="bg-gradient-to-r from-emerald-700/30 to-teal-700/30 backdrop-blur-sm rounded-xl p-6 border border-emerald-400/20">
-                <div className="space-y-3 text-sm">
-                  <div className="flex items-center">
-                    <span className="text-slate-400 w-32 font-semibold">Learning Path:</span>
-                    <span className="text-white">
-                      {getSelectedCourse()?.title} Mastery Program - {getSelectedCourse()?.title.toLowerCase()} fundamentals to advanced concepts
-                    </span>
-                  </div>
-                  
-                  <div className="flex items-center">
-                    <span className="text-slate-400 w-32 font-semibold">Progress:</span>
-                    <div className="flex items-center">
-                      <span className="text-white mr-2">
-                        {getSelectedCourse()?.status === 'Completed' ? '100%' :
-                         getSelectedCourse()?.status === 'In Progress' ? '65%' : '0%'}
-                      </span>
-                      <div className="w-32 bg-slate-600 rounded-full h-2">
-                        <div
-                          className={`h-2 rounded-full transition-all duration-500 ${
-                            getSelectedCourse()?.status === 'Completed' ? 'bg-green-500' :
-                            getSelectedCourse()?.status === 'In Progress' ? 'bg-blue-500' : 'bg-gray-500'
-                          }`}
-                          style={{ 
-                            width: getSelectedCourse()?.status === 'Completed' ? '100%' :
-                                   getSelectedCourse()?.status === 'In Progress' ? '65%' : '0%'
+        {/* Main Content Layout - Two Column Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8" style={{maxWidth: '1800px', margin: '0 auto', padding: '0 2rem'}}>
+          {/* Left Column: Worker and Course Selection */}
+          <div className="space-y-6">
+          {/* Card 1: Choose Worker */}
+          <div className="microservice-card" style={{padding: '1.5rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px'}}>
+            <div className="mb-4">
+              <h3 className="font-semibold mb-3" style={{color: 'var(--text-primary)'}}>📋 All Workers ({workers?.length || 0})</h3>
+              
+              {/* Compact worker list */}
+              <div className="grid grid-cols-2 md:grid-cols-2 gap-3 mb-4 max-h-64 overflow-y-auto">
+                {workers?.map((worker) => {
+                  const isSelected = selectedWorker === worker.id
+                  return (
+                    <div
+                      key={worker.id}
+                      onClick={() => handleWorkerChange(worker.id)}
+                      className="p-3 rounded-lg cursor-pointer transition-all duration-200"
+                      style={{
+                        background: isSelected ? 'var(--bg-tertiary)' : 'var(--bg-secondary)',
+                        border: isSelected ? '2px solid var(--primary-cyan)' : '1px solid var(--bg-tertiary)',
+                        transform: isSelected ? 'scale(1.05)' : 'scale(1)'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isSelected) e.target.style.background = 'var(--bg-tertiary)'
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isSelected) e.target.style.background = 'var(--bg-secondary)'
+                      }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <div 
+                          className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold"
+                          style={{
+                            background: isSelected ? 'var(--gradient-primary)' : 'var(--bg-tertiary)',
+                            color: 'white'
                           }}
-                        ></div>
+                        >
+                          {getInitials(worker.name)}
+          </div>
+                        <span className="font-medium text-sm" style={{color: 'var(--text-primary)'}}>{worker.name}</span>
+        </div>
+                      {isSelected && (
+                        <div className="text-xs mt-2" style={{color: 'var(--text-secondary)'}}>
+                          ✓ Selected
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+                  </div>
+                  
+          {/* Card 2: Choose Course (only show if worker selected) */}
+          {selectedWorker && (
+            <div className="microservice-card" style={{padding: '1.5rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px'}}>
+              <div className="mb-4">
+                <h3 className="font-semibold mb-3" style={{color: 'var(--text-primary)'}}>
+                  📚 Courses for {workers?.find(w => w.id === selectedWorker)?.name}
+                </h3>
+                
+                {/* Compact course list */}
+                <div className="space-y-3">
+                  {getSelectedWorker()?.learningPath.courses?.map((course) => {
+                    const isSelected = selectedCourse === course.id
+                    return (
+                      <div
+                        key={course.id}
+                        onClick={() => handleCourseChange(course.id)}
+                        className="p-4 rounded-lg cursor-pointer transition-all duration-200"
+                          style={{ 
+                          background: isSelected ? 'var(--bg-tertiary)' : 'var(--bg-secondary)',
+                          border: isSelected ? '2px solid var(--primary-cyan)' : '1px solid var(--bg-tertiary)',
+                          transform: isSelected ? 'scale(1.02)' : 'scale(1)'
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isSelected) e.target.style.background = 'var(--bg-tertiary)'
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isSelected) e.target.style.background = 'var(--bg-secondary)'
+                        }}
+                      >
+                        <div className="flex items-start gap-3">
+                          <div 
+                            className="w-10 h-10 rounded-lg flex items-center justify-center text-xl flex-shrink-0"
+                            style={{
+                              background: 'var(--gradient-primary)',
+                              color: 'white'
+                            }}
+                          >
+                            📘
                       </div>
+                          <div className="flex-1">
+                            <p className="font-semibold" style={{color: 'var(--text-primary)'}}>{course.title}</p>
+                            <div className="flex items-center gap-2 mt-2">
+                              <span className={`text-xs px-2 py-1 rounded-full ${
+                                course.status === 'Completed' ? 'bg-green-500/20 text-green-400' :
+                                course.status === 'In Progress' ? 'bg-blue-500/20 text-blue-400' :
+                                'bg-gray-500/20 text-gray-400'
+                              }`}>
+                                {course.status === 'Completed' ? '✅' : course.status === 'In Progress' ? '🔄' : '⏳'} {course.status || 'Not Started'}
+                              </span>
                     </div>
                   </div>
-                  
-                  <div className="flex items-center">
-                    <span className="text-slate-400 w-32 font-semibold">Date of Starting:</span>
-                    <span className="text-white">
-                      {getSelectedCourse()?.status === 'Completed' ? getSelectedCourse()?.completedDate :
-                       getSelectedCourse()?.status === 'In Progress' ? getSelectedWorker()?.learningPath.startDate :
-                       'Not Started'}
-                    </span>
                   </div>
-                  
-                  <div className="flex items-center">
-                    <span className="text-slate-400 w-32 font-semibold">Duration:</span>
-                    <span className="text-white">{getSelectedCourse()?.duration}</span>
-                  </div>
-                  
-                  {getSelectedCourse()?.score && (
-                    <div className="flex items-center">
-                      <span className="text-slate-400 w-32 font-semibold">Score:</span>
-                      <span className="text-green-400 font-semibold">{getSelectedCourse()?.score}%</span>
-                    </div>
-                  )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
 
-                  <div className="flex items-center">
-                    <span className="text-slate-400 w-32 font-semibold">Status:</span>
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+          {/* Card 3: Course Details */}
+          {selectedWorker && selectedCourse && (
+            <div className="microservice-card" style={{padding: '2rem', background: 'var(--gradient-card)', border: '1px solid var(--bg-tertiary)', borderRadius: '16px'}}>
+                {/* Title and Worker Name */}
+                <div className="mb-6">
+                  <h2 className="text-2xl font-bold mb-2" style={{color: 'var(--text-primary)'}}>
+                    {getSelectedCourse()?.title}
+                  </h2>
+                  <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>
+                    👤 {getSelectedWorker()?.name}
+                  </p>
+                  </div>
+                  
+                {/* Course Details Table */}
+                <div className="space-y-4">
+                  {/* Progress Row */}
+                  <div className="flex items-center justify-between border-b pb-3" style={{borderColor: 'var(--bg-tertiary)'}}>
+                    <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Progress</span>
+                    <span className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>
+                      {getSelectedCourse()?.status === 'Completed' ? '100%' :
+                       getSelectedCourse()?.status === 'In Progress' ? '65%' : '0%'}
+                    </span>
+                    </div>
+                  
+                  {/* Status Row */}
+                  <div className="flex items-center justify-between border-b pb-3" style={{borderColor: 'var(--bg-tertiary)'}}>
+                    <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Status</span>
+                    <span className={`text-sm px-3 py-1 rounded-full flex items-center gap-1 ${
                       getSelectedCourse()?.status === 'Completed' ? 'bg-green-500 text-white' :
                       getSelectedCourse()?.status === 'In Progress' ? 'bg-blue-500 text-white' :
                       'bg-gray-500 text-white'
@@ -1403,11 +1500,151 @@ const CompanyView = ({ onBack }) => {
                        '⏳ Not Started'}
                     </span>
                   </div>
+                  
+                  {/* Duration Row */}
+                  <div className="flex items-center justify-between border-b pb-3" style={{borderColor: 'var(--bg-tertiary)'}}>
+                    <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Duration</span>
+                    <span className="text-lg font-semibold" style={{color: 'var(--text-primary)'}}>
+                      {getSelectedCourse()?.duration || '10 hours'}
+                    </span>
+                </div>
+                  
+                  {/* Score Row (if available) */}
+                  {getSelectedCourse()?.score && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Score</span>
+                      <span className="text-lg font-semibold" style={{color: 'var(--accent-green)'}}>
+                        {getSelectedCourse()?.score}%
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+          )}
+          </div>
+          
+          {/* Right Column: Full Learning Path - Tall Window */}
+          {selectedWorker && selectedCourse && (
+            <div className="lg:sticky lg:top-8" style={{alignSelf: 'flex-start', maxHeight: 'calc(100vh - 120px)', overflow: 'auto'}}>
+              <div className="microservice-card" style={{
+                padding: '2rem', 
+                background: 'var(--gradient-card)', 
+                border: '1px solid var(--bg-tertiary)', 
+                borderRadius: '16px'
+              }}>
+                {/* Header */}
+                <div className="mb-6">
+                  <h2 className="text-2xl font-bold mb-2" style={{color: 'var(--text-primary)'}}>
+                    📚 {getSelectedCourse()?.title} Learning Path
+                  </h2>
+                  <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>
+                    👤 {getSelectedWorker()?.name} • 12 Stages to Mastery
+                  </p>
+                </div>
+                
+                {/* Learning Path Stages */}
+                <div className="space-y-6">
+                  {/* Stage 1 */}
+                  <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
+                    <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>
+                      Stage 1: The Foundation - Algorithmic and Code Efficiency
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 1: Theoretical Grounding</p>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Big O Notation and Amdahl's Law</p>
+                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Graded Quiz on complexity</p>
+                      </div>
+                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 2: Profiling Fundamentals</p>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Benchmarking and Hotspot Identification</p>
+                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Lab Challenge - Profile Report</p>
+                      </div>
+                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 3: Micro-Optimization</p>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Memory and Concurrency basics</p>
+                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Peer Review</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Stage 2 */}
+                  <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
+                    <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>
+                      Stage 2: The Data Layer - Database and Caching Tuning
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 4: Query Analysis</p>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Execution Plans and Indexing</p>
+                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Analyze 5 SQL queries</p>
+                      </div>
+                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 5: Caching Implementation</p>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Layered Caching (In-memory, CDN)</p>
+                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Live Demo</p>
+                      </div>
+                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 6: Scaling Concepts</p>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Database Architecture</p>
+                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Conceptual Exam</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Stage 3 */}
+                  <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
+                    <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>
+                      Stage 3: The Environment - Infrastructure and Network
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 7: System Tuning</p>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>OS and I/O optimization</p>
+                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Configuration Audit</p>
+                      </div>
+                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 8: Network Efficiency</p>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Latency Reduction and Protocols</p>
+                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Problem Solving</p>
+                      </div>
+                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 9: Scaling Architecture</p>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Load Balancing and Observability</p>
+                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Integrated Project</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Stage 4 */}
+                  <div className="border-l-4 pl-4" style={{borderColor: 'var(--primary-cyan)'}}>
+                    <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text-primary)'}}>
+                      Stage 4: Mastery and Automation
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 10: Performance Testing</p>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Load, Stress, and Soak testing</p>
+                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Testing Report</p>
+                      </div>
+                      <div className="p-3 rounded-lg" style={{background: 'var(--bg-secondary)', border: '1px solid var(--bg-tertiary)'}}>
+                        <p className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Step 11: CI/CD Integration</p>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Automating Regression Checks</p>
+                        <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>🎯 Mastery Gate: Practical Task</p>
+                      </div>
+                      <div className="p-3 rounded-lg" style={{background: 'var(--gradient-primary)', border: '1px solid var(--primary-cyan)', borderRadius: '12px'}}>
+                        <p className="font-semibold mb-1" style={{color: 'white'}}>🏆 Step 12: Final Capstone Project</p>
+                        <p className="text-sm" style={{color: 'rgba(255,255,255,0.9)'}}>The Optimization Audit - Full Skill Synthesis</p>
+                        <p className="text-xs mt-1 font-bold" style={{color: 'white'}}>🎯 Mastery Gate: Complete Audit Report</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
+      </div>
       </div>
     </div>
   )

@@ -10,9 +10,9 @@
 }
 
 .la-theme{
-  background: linear-gradient(135deg,var(--la-bg-start), var(--la-bg-end));
-  /* ensure primary text on the dark/blue theme is white */
-  color: var(--la-on-accent);
+  /* Let the design system handle the background */
+  /* background removed to allow theme system to control it */
+  color: var(--text-primary);
 }
 
 .la-theme .la-card{
@@ -54,15 +54,9 @@
   border: 1px solid rgba(255,255,255,0.04);
 }
 
-/*
- * Force the blue page background globally.
- * This will override per-section Tailwind background classes so the
- * same blue gradient appears on every view without editing each JSX file.
- */
-html, body, #root, .la-theme {
-  background: linear-gradient(135deg, var(--la-bg-start), var(--la-bg-end)) !important;
+/* Let the design system handle backgrounds based on theme */
+html, body, #root {
   min-height: 100vh;
-  background-attachment: fixed;
 }
 
 /* Keep cards and other components able to set their own subtle backgrounds */

@@ -1,8 +1,29 @@
 import express from 'express'
 import { supabase } from '../server.js'
 import logger from '../utils/logger.js'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const router = express.Router()
+
+// Get learner's personal learning path (mock data endpoint)
+router.get('/learner/my-path', async (req, res, next) => {
+  try {
+    // Read the mock data file
+    const mockDataPath = path.join(__dirname, '../data/learner-mock.json')
+    const mockData = JSON.parse(fs.readFileSync(mockDataPath, 'utf8'))
+    
+    logger.info('Serving learner mock data')
+    res.json(mockData.learningPath)
+  } catch (error) {
+    logger.error('Error serving learner mock data:', error)
+    next(error)
+  }
+})
 
 // Search courses across learning paths. Query param: q
 router.get('/courses/search', async (req, res, next) => {
